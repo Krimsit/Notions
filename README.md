@@ -2,7 +2,9 @@
 
 ### Технологии
 Desktop - JavaFX,
+
 API - ASP.NET Framework,
+
 БД - MySQL
 
 ### План действий
