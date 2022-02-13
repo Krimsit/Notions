@@ -1,11 +1,12 @@
 # Notes
 
 ### Технологии
-Desktop - JavaFX,
+- Desktop - JavaFX
+- API - ASP.NET Framework
+- БД - MySQL
 
-API - ASP.NET Framework,
-
-БД - MySQL
+### Макет
+[Figma](http://https://www.figma.com/file/cQdKqYi4emIcN3ROwc9BUD/Untitled?node-id=0%3A1 "Figma")
 
 ### План действий
 1. Разработка дизайна окон приложения, выбор цветовой палитры приложения:
@@ -31,3 +32,8 @@ API - ASP.NET Framework,
 
 ### Принцип взаимодействи клиента, сервера и API
 ![](https://i.imgur.com/7asH06ah.jpg)
+
+### Участники
+[Валентин Емельянов](https://github.com/Healthzone "Валентин Емельянов")
+[Крылов Егор](https://github.com/TopRuiner "Крылов Егор")
+[Субботин Андрей](https://github.com/Krimsit "Субботин Андрей")
