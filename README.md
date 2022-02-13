@@ -6,7 +6,7 @@
 - БД - MySQL
 
 ### Макет
-[Figma](http://https://www.figma.com/file/cQdKqYi4emIcN3ROwc9BUD/Untitled?node-id=0%3A1 "Figma")
+[Figma](https://www.figma.com/file/cQdKqYi4emIcN3ROwc9BUD/Untitled?node-id=0%3A1 "Figma")
 
 ### План действий
 1. Разработка дизайна окон приложения, выбор цветовой палитры приложения:
