@@ -21,6 +21,20 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
+    private static Controller instance;
+
+    public Controller(){
+        instance = this;
+    }
+    public static Controller getInstance(){
+        return instance;
+    }
+
+
+    //Temp Id for testing
+    private int tempId = 0;
+
+
     //TreeView for showing folders
     @FXML
     private TreeView<?> treeView;
@@ -79,6 +93,7 @@ public class Controller implements Initializable {
         List<Note> ns = new ArrayList<Note>();
         for (int i =0;i<15;i++) {
             Note note = new Note();
+            note.setId(tempId++);
             note.setText("Sample Text");
             note.setTitle("Sample Title");
             ns.add(note);
@@ -90,6 +105,7 @@ public class Controller implements Initializable {
     private void noteAdd() throws IOException {
         System.out.println("Success");
         Note note = new Note();
+        note.setId(tempId++);
         note.setText("Sample Text");
         note.setTitle("Sample Title");
         notes.add(note);
@@ -104,5 +120,11 @@ public class Controller implements Initializable {
         }
         notesGrid.add(box,columns++,rows);
         GridPane.setMargin(box,new Insets(10));
+    }
+    public void noteEdit(int Id){
+        System.out.println(Id);
+    }
+    public void noteDelete(int Id){
+        System.out.println(Id);
     }
 }

@@ -28,12 +28,13 @@
       </Label>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
          <children>
-            <ImageView fx:id="noteDelete" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+            <Label fx:id="noteId" text="ID" HBox.hgrow="NEVER" />
+            <ImageView fx:id="noteDelete" fitHeight="35.0" fitWidth="35.0" onMouseClicked="#deleteNoteBtnClicked" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../img/delete.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="noteEdit" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="noteEditBtn" fitHeight="35.0" fitWidth="35.0" onMouseClicked="#editNoteBtnClicked" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../img/edit.png" />
                </image>
