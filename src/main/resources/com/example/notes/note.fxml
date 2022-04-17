@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="250.0" style="-fx-border-radius: 15; -fx-border-color: black; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.notes.NoteController">
+<VBox fx:id="noteContainer" prefHeight="300.0" prefWidth="250.0" style="-fx-border-radius: 15; -fx-border-color: black; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.notes.NoteController">
    <children>
       <Label fx:id="noteTitle" text="Title">
          <font>
@@ -28,12 +28,13 @@
       </Label>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
          <children>
-            <ImageView fx:id="noteDelete" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+            <Label fx:id="noteId" text="ID" HBox.hgrow="NEVER" />
+            <ImageView fx:id="noteDelete" fitHeight="35.0" fitWidth="35.0" onMouseClicked="#deleteNoteBtnClicked" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../img/delete.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="noteEdit" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="noteEditBtn" fitHeight="35.0" fitWidth="35.0" onMouseClicked="#editNoteBtnClicked" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../img/edit.png" />
                </image>
