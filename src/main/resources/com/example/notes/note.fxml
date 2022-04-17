@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="250.0" style="-fx-border-radius: 15; -fx-border-color: black; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.notes.NoteController">
+<VBox fx:id="noteContainer" prefHeight="300.0" prefWidth="250.0" style="-fx-border-radius: 15; -fx-border-color: black; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.notes.NoteController">
    <children>
       <Label fx:id="noteTitle" text="Title">
          <font>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -15,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.notes.Controller">
+<BorderPane fx:id="borderPane" minWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.notes.Controller">
    <top>
       <HBox alignment="CENTER_RIGHT" style="-fx-background-color: F0D584;" BorderPane.alignment="CENTER">
          <children>
@@ -27,7 +28,8 @@
                   <Font name="Cambria Bold Italic" size="30.0" />
                </font>
             </Label>
-            <Region HBox.hgrow="ALWAYS" />
+            <Region HBox.hgrow="SOMETIMES" />
+            <Button fx:id="testBtn" mnemonicParsing="false" onMouseClicked="#testBtnClick" text="Edit" />
             <ChoiceBox style="-fx-background-color: F0D584;" />
          </children>
       </HBox>
@@ -57,9 +59,9 @@
       </VBox>
    </left>
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="notesViewContainer" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane style="-fx-background-color: FBFBFB;">
+            <ScrollPane fx:id="mainScrollPane" pannable="true" style="-fx-background-color: FBFBFB;">
                <content>
                   <GridPane fx:id="notesGrid" gridLinesVisible="true">
                     <rowConstraints>

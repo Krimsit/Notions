@@ -6,10 +6,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.web.HTMLEditor;
 
 
 import java.io.Console;
@@ -28,6 +30,44 @@ public class Controller implements Initializable {
     }
     public static Controller getInstance(){
         return instance;
+    }
+
+
+
+
+
+    @FXML
+    VBox editVBox =new VBox();
+    @FXML
+    BorderPane borderPane;
+    @FXML
+    HTMLEditor htmlEditor = new HTMLEditor();
+    //VBox that contains all notes
+    @FXML
+    VBox notesViewContainer;
+    //Main scrollPane
+    @FXML
+    ScrollPane mainScrollPane;
+    //Test button for switching containers
+    @FXML
+    Button testBtn;
+    public void testBtnClick(){
+        System.out.println("123");
+        notesViewContainer.setDisable(true);
+        //borderPane.setCenter(htmlEditor);
+        Button saveBtn = new Button("Save");
+        saveBtn.setOnAction(actionEvent ->{
+
+            String htmlText = htmlEditor.getHtmlText();
+            System.out.println(htmlText);
+        });
+        borderPane.setCenter(editVBox);
+        editVBox.getChildren().add(htmlEditor);
+        editVBox.getChildren().add(saveBtn);
+
+    }
+    public void saveBntClick(){
+
     }
 
 
@@ -66,14 +106,14 @@ public class Controller implements Initializable {
                 VBox box = fxmlLoader.load();
                 NoteController noteController = fxmlLoader.getController();
                 noteController.setData(notes.get(i));
-                if (columns == 3){
+                if (columns == 3) {
                     columns = 0;
                     ++rows;
                 }
+
                 //adding (VBox)note to gridPane
                 notesGrid.add(box,columns++,rows);
                 GridPane.setMargin(box,new Insets(10));
-
                 //Убирается 0 ряд (Работает но надо лучше переделать)
                 while(notesGrid.getRowConstraints().size() > 0){
                     notesGrid.getRowConstraints().remove(0);

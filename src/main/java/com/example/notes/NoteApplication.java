@@ -1,11 +1,14 @@
 package com.example.notes;
 
+import com.example.model.Note;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
+import static java.lang.Integer.parseInt;
 
 public class NoteApplication extends Application {
     @Override
@@ -15,6 +18,10 @@ public class NoteApplication extends Application {
         stage.setTitle("Hello!");
         stage.setScene(scene);
 
+        //event listener for width property of the window
+        //stage.widthProperty().addListener((obs, oldVal, newVal) -> {
+          //  NoteController.getInstance().resizeNote(newVal.doubleValue());
+        //});
         stage.show();
     }
 
