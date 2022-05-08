@@ -31,7 +31,8 @@ public class Controller implements Initializable {
     public static Controller getInstance(){
         return instance;
     }
-
+    @FXML
+    TilePane tilePane;
 
 
 
@@ -98,34 +99,18 @@ public class Controller implements Initializable {
         //notes stored before
         notes = new ArrayList<Note>(notes());
         try {
-            // adding notes to main gridpane
-            for (int i = 0; i<notes.size();i++){
+            for (int i = 0; i < notes.size(); i++) {
                 //fxmlLoader for loading fxml file of a note
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("note.fxml"));
                 VBox box = fxmlLoader.load();
                 NoteController noteController = fxmlLoader.getController();
                 noteController.setData(notes.get(i));
-                if (columns == 3) {
-                    columns = 0;
-                    ++rows;
-                }
-
-                //adding (VBox)note to gridPane
-                notesGrid.add(box,columns++,rows);
-                GridPane.setMargin(box,new Insets(10));
-                //Убирается 0 ряд (Работает но надо лучше переделать)
-                while(notesGrid.getRowConstraints().size() > 0){
-                    notesGrid.getRowConstraints().remove(0);
-                }
-
-                while(notesGrid.getColumnConstraints().size() > 0) {
-                    notesGrid.getColumnConstraints().remove(0);
-                }
+                tilePane.getChildren().add(0,box);
             }
         }
-        catch (IOException e) {
-                e.printStackTrace();
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
     //temporary stored notes
@@ -134,7 +119,7 @@ public class Controller implements Initializable {
         for (int i =0;i<15;i++) {
             Note note = new Note();
             note.setId(tempId++);
-            note.setText("Sample Text");
+            note.setText("<html dir=\"ltr\"><head></head><body contenteditable=\"true\"><p><span style=\"font-family: &quot;&quot;;\">Sample</span></p></body></html>");
             note.setTitle("Sample Title");
             ns.add(note);
         }
@@ -154,17 +139,16 @@ public class Controller implements Initializable {
         VBox box = fxmlLoader.load();
         NoteController noteController = fxmlLoader.getController();
         noteController.setData(note);
-        if (columns == 3){
-            columns = 0;
-            ++rows;
-        }
-        notesGrid.add(box,columns++,rows);
-        GridPane.setMargin(box,new Insets(10));
+        tilePane.getChildren().add(0,box);
     }
     public void noteEdit(int Id){
         System.out.println(Id);
+        System.out.println(notes.get(Id).getText());
     }
     public void noteDelete(int Id){
         System.out.println(Id);
+    }
+    public void resizeTilePane(double width){
+        tilePane.setPrefWidth(width-275);
     }
 }

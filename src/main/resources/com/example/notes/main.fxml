@@ -9,10 +9,9 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -61,13 +60,9 @@
    <center>
       <VBox fx:id="notesViewContainer" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane fx:id="mainScrollPane" pannable="true" style="-fx-background-color: FBFBFB;">
+            <ScrollPane VBox.vgrow="ALWAYS">
                <content>
-                  <GridPane fx:id="notesGrid" gridLinesVisible="true">
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                  </GridPane>
+                  <TilePane fx:id="tilePane" hgap="10.0" vgap="10.0" />
                </content>
             </ScrollPane>
          </children>
