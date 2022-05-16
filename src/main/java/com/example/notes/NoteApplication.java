@@ -19,9 +19,10 @@ public class NoteApplication extends Application {
         stage.setScene(scene);
 
         //event listener for width property of the window
-        //stage.widthProperty().addListener((obs, oldVal, newVal) -> {
-          //  NoteController.getInstance().resizeNote(newVal.doubleValue());
-        //});
+        stage.widthProperty().addListener((obs, oldVal, newVal) -> {
+          //NoteController.getInstance().resizeNote(newVal.doubleValue());
+            Controller.getInstance().resizeTilePane(newVal.doubleValue());
+        });
         stage.show();
     }
 

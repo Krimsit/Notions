@@ -8,6 +8,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
 import static java.lang.Integer.parseInt;
 
@@ -33,7 +35,8 @@ public class NoteController {
     private ImageView noteEditBtn;
 
     @FXML
-    private Label noteText;
+    private WebView noteText;
+    private WebEngine noteEngine;
 
     @FXML
     private Label noteTitle;
@@ -41,7 +44,8 @@ public class NoteController {
     public void setData(Note note){
         noteId.setText(note.getId().toString());
         noteTitle.setText(note.getTitle());
-        noteText.setText(note.getText());
+        noteEngine = noteText.getEngine();
+        noteEngine.loadContent(note.getText());
 
     }
     @FXML
@@ -54,6 +58,7 @@ public class NoteController {
         int Id = parseInt(noteId.getText());
         Controller.getInstance().noteDelete(Id);
     }
+
     public void resizeNote(double windowWidth){
     noteContainer.setPrefWidth((windowWidth-244)/3);
     }
