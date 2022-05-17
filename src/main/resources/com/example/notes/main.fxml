@@ -62,7 +62,13 @@
          <children>
             <ScrollPane VBox.vgrow="ALWAYS">
                <content>
-                  <TilePane fx:id="tilePane" hgap="10.0" vgap="10.0" />
+                  <TilePane fx:id="tilePane" hgap="10.0" vgap="10.0">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding></TilePane>
                </content>
             </ScrollPane>
          </children>

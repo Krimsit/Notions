@@ -23,6 +23,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
+    //for accessing this controller from other controllers
     private static Controller instance;
 
     public Controller(){
@@ -33,65 +34,28 @@ public class Controller implements Initializable {
     }
     @FXML
     TilePane tilePane;
-
-
-
-
-    @FXML
-    VBox editVBox =new VBox();
     @FXML
     BorderPane borderPane;
     @FXML
-    HTMLEditor htmlEditor = new HTMLEditor();
-    //VBox that contains all notes
-    @FXML
     VBox notesViewContainer;
-    //Main scrollPane
-    @FXML
-    ScrollPane mainScrollPane;
     //Test button for switching containers
     @FXML
     Button testBtn;
-    public void testBtnClick(){
+    public void testBtnClick() throws IOException {
         System.out.println("123");
         notesViewContainer.setDisable(true);
-        //borderPane.setCenter(htmlEditor);
-        Button saveBtn = new Button("Save");
-        saveBtn.setOnAction(actionEvent ->{
-
-            String htmlText = htmlEditor.getHtmlText();
-            System.out.println(htmlText);
-        });
-        borderPane.setCenter(editVBox);
-        editVBox.getChildren().add(htmlEditor);
-        editVBox.getChildren().add(saveBtn);
-
+        borderPane.setCenter(FXMLLoader.load(getClass().getResource("noteEdit.fxml")));
     }
-    public void saveBntClick(){
-
-    }
-
-
     //Temp Id for testing
     private int tempId = 0;
-
-
     //TreeView for showing folders
     @FXML
     private TreeView<?> treeView;
-    //Grid Pane for (VBox)Notes
-    @FXML
-    private GridPane notesGrid;
     //List of notes stored before initialization
     private List<Note> notes;
-    //Button for adding note (unused)
+    //Button for adding note
     @FXML
     private ImageView noteAddBtn;
-
-    //starting columns
-    private int columns = 0;
-    //starting rows
-    private int rows = 1;
 
     //happens when app first launched
     @Override
