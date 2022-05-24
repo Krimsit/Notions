@@ -38,7 +38,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" spacing="5.0">
                <children>
-                  <ImageView fx:id="noteAddBtn" fitHeight="60.0" fitWidth="60.0" onMouseClicked="#noteAdd" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="noteAddBtn" fitHeight="60.0" fitWidth="60.0" onMouseClicked="#noteAddBtnClicked" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../img/textNote.png" />
                      </image>
