@@ -19,10 +19,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Controller implements Initializable {
@@ -36,7 +34,6 @@ public class Controller implements Initializable {
         return instance;
     }
     VBox noteEditBox;
-
     {
         try {
             noteEditBox = FXMLLoader.load(getClass().getResource("noteEdit.fxml"));
@@ -70,11 +67,11 @@ public class Controller implements Initializable {
     @FXML
     private ImageView noteAddBtn;
 
+    private Integer id = 0;
     //happens when app first launched
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         updateViewedNotes();
-
     }
     private void updateViewedNotes(){
         notes = new ArrayList<Note>(getStoredNotes());
@@ -94,11 +91,12 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
     }
+    //returns stored notes sorted by date
     private List<Note> getStoredNotes(){
         List<Note> ns = new ArrayList<Note>();
         File folder = new File("NotesStored");
+        if (!folder.exists()) folder.mkdirs();
         File[] listOfFiles = folder.listFiles();
-
         for (File file : listOfFiles) {
             if (file.isFile()) {
                 System.out.println(file.getName());
@@ -122,6 +120,7 @@ public class Controller implements Initializable {
                 }
             }
         }
+        ns = ns.stream().sorted(Comparator.comparing(Note::getCreatedOn)).collect(Collectors.toList());
         return ns;
     }
     //temporary stored notes
@@ -157,8 +156,14 @@ public class Controller implements Initializable {
     private void noteAddBtnClicked() throws IOException {
 
         System.out.println("Success");
+        try {
+            noteEditBox = FXMLLoader.load(getClass().getResource("noteEdit.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         notesViewContainer.setDisable(true);
         borderPane.setCenter(noteEditBox);
+
         /*
         note.setId(tempId++);
         note.setText("Sample Text");
@@ -166,10 +171,31 @@ public class Controller implements Initializable {
          */
 
     }
+    public int getLastId(){
+        System.out.println("Here");
+        if (notes.size()==0){
+            return 0;
+        }
+        else {
+            return notes.get(notes.size() - 1).getId();
+        }
+    }
+    public boolean checkNonUniqueName(String name){
+        File folder = new File("NotesStored");
+        File[] listOfFiles = folder.listFiles();
+        for (File file : listOfFiles) {
+            if (file.isFile()) {
+                if (file.getName().equals(name + ".bin")){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     public void noteAdd(Note note){
         File directory = new File("NotesStored");
         if (!directory.exists()) directory.mkdirs();
-        File file = new File("NotesStored/"+note.getTitle()+note.getId()+".bin");
+        File file = new File("NotesStored/"+note.getTitle()/*+note.getId()*/+".bin");
         ObjectOutputStream objectOutputStream = null;
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(file);
@@ -209,7 +235,8 @@ public class Controller implements Initializable {
     }
     public void noteEdit(int Id){
         System.out.println(Id);
-        System.out.println(notes.get(Id).getText());
+        System.out.println("Нашлось");
+
     }
     public void noteDelete(int Id){
         System.out.println(Id);

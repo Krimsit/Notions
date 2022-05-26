@@ -19,9 +19,10 @@
             <Insets left="10.0" top="10.0" />
          </padding>
       </Label>
-      <WebView fx:id="noteText" blendMode="DARKEN" disable="true" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+      <WebView fx:id="noteText" blendMode="DARKEN" disable="true" fontScale="0.9" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
          <children>
+            <Label fx:id="noteDate" text="Date" />
             <Label fx:id="noteId" text="ID" HBox.hgrow="NEVER" />
             <ImageView fx:id="noteDelete" fitHeight="35.0" fitWidth="35.0" onMouseClicked="#deleteNoteBtnClicked" pickOnBounds="true" preserveRatio="true">
                <image>
