@@ -25,6 +25,10 @@ public class NoteEditController {
 
 
     @FXML
+    private void noteEditCancelBtnClicked(){
+        Controller.getInstance().noteEditHide();
+    }
+    @FXML
     private void noteEditSaveBtnClicked(){
         Note note = new Note();
         note.setId(Controller.getInstance().getLastId()+1);
