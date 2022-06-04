@@ -12,7 +12,7 @@ import javafx.scene.control.TreeView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.web.HTMLEditor;
-
+import java.nio.file.*;
 
 import java.io.*;
 import java.net.URL;
@@ -26,7 +26,6 @@ import java.util.stream.Stream;
 public class Controller implements Initializable {
     //for accessing this controller from other controllers
     private static Controller instance;
-
     public Controller(){
         instance = this;
     }
@@ -48,14 +47,6 @@ public class Controller implements Initializable {
     BorderPane borderPane;
     @FXML
     VBox notesViewContainer;
-    //Test button for switching containers
-    @FXML
-    Button testBtn;
-    public void testBtnClick() throws IOException {
-        System.out.println("123");
-        notesViewContainer.setDisable(true);
-        borderPane.setCenter(FXMLLoader.load(getClass().getResource("noteEdit.fxml")));
-    }
     //Temp Id for testing
     private int tempId = 0;
     //TreeView for showing folders
@@ -99,8 +90,8 @@ public class Controller implements Initializable {
         File[] listOfFiles = folder.listFiles();
         for (File file : listOfFiles) {
             if (file.isFile()) {
-                System.out.println(file.getName());
-                System.out.println(folder + file.getName());
+                //System.out.println(file.getName());
+                //System.out.println(folder + file.getName());
                 File noteFile = new File(folder + "/" + file.getName());
                 ObjectInputStream objectInputStream = null;
                 try {
@@ -117,6 +108,16 @@ public class Controller implements Initializable {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
+                }
+                finally {
+                    if (objectInputStream!=null){
+                        try {
+                            objectInputStream.close();
+                        }
+                        catch (IOException e){
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
         }
@@ -154,7 +155,6 @@ public class Controller implements Initializable {
     //Clicking on imageView of adding text note runs this method
     @FXML
     private void noteAddBtnClicked() throws IOException {
-
         System.out.println("Success");
         try {
             noteEditBox = FXMLLoader.load(getClass().getResource("noteEdit.fxml"));
@@ -233,13 +233,71 @@ public class Controller implements Initializable {
         noteEditBox.setDisable(true);
         borderPane.setCenter(notesViewContainer);
     }
-    public void noteEdit(int Id){
-        System.out.println(Id);
+    public void noteEdit(String title){
+        System.out.println(title);
         System.out.println("Нашлось");
-
+        File folder = new File("NotesStored");
+        File file = new File(folder+"/"+title+".bin");
+        if (file.isFile()) {
+            //System.out.println(file.getName());
+            //System.out.println(folder + file.getName());
+            Note note = new Note();
+            ObjectInputStream objectInputStream = null;
+            System.out.println("Its a file");
+            try {
+                FileInputStream fileInputStream = new FileInputStream(file);
+                if (fileInputStream != null) {
+                    objectInputStream = new ObjectInputStream(fileInputStream);
+                    note = (Note) objectInputStream.readObject();
+//                    System.out.println(note.getId());
+//                    System.out.println(note.getTitle());
+//                    System.out.println(note.getCreatedOn());
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            finally {
+                if (objectInputStream!=null){
+                    try {
+                        objectInputStream.close();
+                    }
+                    catch (IOException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+            try {
+                noteEditBox = FXMLLoader.load(getClass().getResource("noteEdit.fxml"));
+                NoteEditController.getInstance().setEditMode(note);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            notesViewContainer.setDisable(true);
+            borderPane.setCenter(noteEditBox);
+        }
     }
-    public void noteDelete(int Id){
-        System.out.println(Id);
+    public void noteDelete(String title) throws IOException {
+        try {
+            Files.deleteIfExists(
+                    Paths.get("NotesStored\\"+title+".bin"));
+        }
+        catch (NoSuchFileException e) {
+            System.out.println(
+                    "No such file/directory exists");
+        }
+        catch (DirectoryNotEmptyException e) {
+            System.out.println("Directory is not empty.");
+        }
+        catch (IOException e) {
+            System.out.println("Invalid permissions.");
+        }
+        tilePane.getChildren().clear();
+        updateViewedNotes();
+
     }
     public void resizeTilePane(double width){
         tilePane.setPrefWidth(width-275);
