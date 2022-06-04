@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -55,18 +56,16 @@ public class NoteController {
         noteEngine = noteText.getEngine();
         noteEngine.loadContent(note.getText());
         noteDate.setText(dtf.format(note.getCreatedOn()));
-
-
     }
     @FXML
     public void editNoteBtnClicked(MouseEvent mouseEvent) {
-        int Id = parseInt(noteId.getText());
-        Controller.getInstance().noteEdit(Id);
+        String title = noteTitle.getText();
+        Controller.getInstance().noteEdit(title);
     }
     @FXML
-    public void deleteNoteBtnClicked(MouseEvent mouseEvent) {
-        int Id = parseInt(noteId.getText());
-        Controller.getInstance().noteDelete(Id);
+    public void deleteNoteBtnClicked(MouseEvent mouseEvent) throws IOException {
+        String title = noteTitle.getText();
+        Controller.getInstance().noteDelete(title);
     }
 
     public void resizeNote(double windowWidth){
