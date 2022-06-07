@@ -23,15 +23,31 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
+/**
+ * Основной класс. Реализует логику работы главного окна заметок.
+ */
 public class Controller implements Initializable {
     //for accessing this controller from other controllers
+    /**
+     * Синглтон экземпляра Controller
+     */
     private static Controller instance;
     public Controller(){
         instance = this;
     }
+
+    /**
+     * Получить ссылку на синглтон класса Controller
+     * @return Возвращает ссылку на синглтон класса Controller
+     */
     public static Controller getInstance(){
         return instance;
     }
+
+    /**
+     * Поле окна редактирования заметки
+     */
     VBox noteEditBox;
     {
         try {
@@ -59,11 +75,20 @@ public class Controller implements Initializable {
     private ImageView noteAddBtn;
 
     private Integer id = 0;
-    //happens when app first launched
+
+    /**
+     * Вызывется при первом запуске приложения
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         updateViewedNotes();
     }
+
+    /**
+     * Метод обновляет UI отображение заметок в главном окне
+     */
     private void updateViewedNotes(){
         notes = new ArrayList<Note>(getStoredNotes());
         //notes stored before
@@ -82,7 +107,11 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
     }
-    //returns stored notes sorted by date
+
+    /**
+     * Метод получения списка сохраненных заметок
+     * @return Возвращает список заметок
+     */
     private List<Note> getStoredNotes(){
         List<Note> ns = new ArrayList<Note>();
         File folder = new File("NotesStored");
@@ -171,6 +200,10 @@ public class Controller implements Initializable {
          */
 
     }
+
+    /**
+     * @return Возвращает идентификатор последней записки в списке
+     */
     public int getLastId(){
         System.out.println("Here");
         if (notes.size()==0){
@@ -180,6 +213,12 @@ public class Controller implements Initializable {
             return notes.get(notes.size() - 1).getId();
         }
     }
+
+    /**
+     * Проверяет название создаваемого файла на уникальность
+     * @param name название создаваемого файла
+     * @return true если имя неуникально
+     */
     public boolean checkNonUniqueName(String name){
         File folder = new File("NotesStored");
         File[] listOfFiles = folder.listFiles();
@@ -192,6 +231,12 @@ public class Controller implements Initializable {
         }
         return false;
     }
+
+    /**
+     * Метод сохраняет заметку на компьютер и запускает сразу режим редактирования
+     * @param note заметка Note
+     * @see Note
+     */
     public void noteAdd(Note note){
         File directory = new File("NotesStored");
         if (!directory.exists()) directory.mkdirs();
@@ -228,11 +273,20 @@ public class Controller implements Initializable {
             }
         }
     }
+
+    /**
+     * Скрывает режим редактирования заметки
+     */
     public void noteEditHide(){
         notesViewContainer.setDisable(false);
         noteEditBox.setDisable(true);
         borderPane.setCenter(notesViewContainer);
     }
+
+    /**
+     * Производит поиск заметки на компьютере и в случае успеха переходит в режим ее редактирования
+     * @param title заголовок заметки по которому происходит поиск
+     */
     public void noteEdit(String title){
         System.out.println(title);
         System.out.println("Нашлось");
@@ -280,6 +334,14 @@ public class Controller implements Initializable {
             borderPane.setCenter(noteEditBox);
         }
     }
+
+    /**
+     * Производит поиск заметки на компьютере и в случае успехе удаляет ее
+     * @param title заголовок заметки
+     * @throws IOException
+     * @throws NoSuchFileException
+     * @throws DirectoryNotEmptyException
+     */
     public void noteDelete(String title) throws IOException {
         try {
             Files.deleteIfExists(
@@ -299,6 +361,11 @@ public class Controller implements Initializable {
         updateViewedNotes();
 
     }
+
+    /**
+     * Меняет размер окна с заметками
+     * @param width ширина окна
+     */
     public void resizeTilePane(double width){
         tilePane.setPrefWidth(width-275);
     }
