@@ -10,6 +10,10 @@ import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
 
+/**
+ * Базовый класс, инициализирующий работу.
+ * Является входной точкой в приложение
+ */
 public class NoteApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {

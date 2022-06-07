@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 
 
 /**
- * Основной класс. Реализует логику работы главного окна заметок.
+ * Основной класс, реализующий логику работы главного окна заметок.
  */
 public class Controller implements Initializable {
     //for accessing this controller from other controllers
@@ -33,6 +33,10 @@ public class Controller implements Initializable {
      * Синглтон экземпляра Controller
      */
     private static Controller instance;
+
+    /**
+     * Базовый конструктор
+     */
     public Controller(){
         instance = this;
     }
@@ -87,7 +91,7 @@ public class Controller implements Initializable {
     }
 
     /**
-     * Метод обновляет UI отображение заметок в главном окне
+     * Метод обновляет UI отображение заметок на главном окне
      */
     private void updateViewedNotes(){
         notes = new ArrayList<Note>(getStoredNotes());
@@ -202,7 +206,7 @@ public class Controller implements Initializable {
     }
 
     /**
-     * @return Возвращает идентификатор последней записки в списке
+     * Возвращает идентификатор последней записки в списке
      */
     public int getLastId(){
         System.out.println("Here");
@@ -336,7 +340,7 @@ public class Controller implements Initializable {
     }
 
     /**
-     * Производит поиск заметки на компьютере и в случае успехе удаляет ее
+     * Производит поиск заметки на компьютере и в случае успеха удаляет ее
      * @param title заголовок заметки
      * @throws IOException
      * @throws NoSuchFileException

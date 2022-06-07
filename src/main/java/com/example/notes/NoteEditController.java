@@ -10,31 +10,66 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+
+/**
+ * Контроллер редактирования заметки, реализующий логику наполнения и изменения заметки
+ */
 public class NoteEditController {
 
+    /**
+     * Ссылка на синглтон класса NoteEditController
+     */
     private static NoteEditController instance;
 
+    /**
+     * Базовый конструктор
+     */
     public NoteEditController(){
+
         instance = this;
     }
+
+
+    /**
+     * Возвращает ссылку на синглтон класса NoteEditController
+     */
     public static NoteEditController getInstance(){
+
         return instance;
     }
 
+    /**
+     * Кнопка отмены
+     */
     @FXML
     private Button noteEditCancelBtn;
 
+    /**
+     * Поле заголовок
+     */
     @FXML
     private TextField noteEditTitle;
 
+    /**
+     * Кнопка сохранить редактирование
+     */
     @FXML
     private Button noteEditSaveBtn;
 
+    /**
+     * Текст редактируемой заметки в HTML формате
+     */
     @FXML
     private HTMLEditor noteEditText;
 
     private static Note note;
     private static boolean editMode = false;
+
+    /**
+     * Метод переводит заметку в режим редактирования
+     * @param noteToEdit редактируемая заметка
+     * @see Note
+     */
     public void setEditMode(Note noteToEdit){
         editMode = true;
         note = noteToEdit;
@@ -44,10 +79,19 @@ public class NoteEditController {
         noteEditTitle.setText(note.getTitle());
         noteEditText.setHtmlText(note.getText());
     }
+
+    /**
+     * Вызывается при нажатии на кнопку отмены редактирования
+     */
     @FXML
     private void noteEditCancelBtnClicked(){
         Controller.getInstance().noteEditHide();
     }
+
+    /**
+     * Вызывается при нажатии на кнопку сохранить изменения
+     * @throws IOException
+     */
     @FXML
     private void noteEditSaveBtnClicked() throws IOException {
         if (!editMode) {
