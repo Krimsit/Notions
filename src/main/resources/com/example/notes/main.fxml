@@ -1,75 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TreeView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.TilePane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="borderPane" minWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.notes.Controller">
+<BorderPane fx:id="borderPane" styleClass="main" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.notes.Controller">
    <top>
-      <HBox alignment="CENTER_RIGHT" style="-fx-background-color: F0D584;" BorderPane.alignment="CENTER">
-         <children>
-            <Label style="-fx-background-color: F0D584;" text="Notes">
-               <padding>
-                  <Insets left="10.0" />
-               </padding>
-               <font>
-                  <Font name="Cambria Bold Italic" size="30.0" />
-               </font>
-            </Label>
-            <Region HBox.hgrow="SOMETIMES" />
-            <ChoiceBox style="-fx-background-color: F0D584;" />
-         </children>
+      <HBox styleClass="main-header" stylesheets="@../styles/main.css">
+         <Label styleClass="main-header-title" stylesheets="@../styles/main.css" text="Notes" />
+         <Region HBox.hgrow="SOMETIMES" />
+         <!--            <ChoiceBox style="-fx-background-color: F0D584;" />-->
       </HBox>
    </top>
    <left>
-      <VBox prefHeight="730.0" prefWidth="244.0" style="-fx-background-color: FCE397;" BorderPane.alignment="CENTER">
-         <children>
-            <HBox alignment="CENTER_LEFT" spacing="5.0">
-               <children>
-                  <ImageView fx:id="noteAddBtn" fitHeight="60.0" fitWidth="60.0" onMouseClicked="#noteAddBtnClicked" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../img/textNote.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../img/checkBox.png" />
-                     </image>
-                  </ImageView>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" top="5.0" />
-               </VBox.margin>
-            </HBox>
-            <TreeView fx:id="treeView" VBox.vgrow="ALWAYS" />
-         </children>
+      <VBox styleClass="main-sidebar" stylesheets="@../styles/main.css">
+         <HBox styleClass="main-sidebar-menu" stylesheets="@../styles/main.css">
+            <Button fx:id="noteAddTextNote" styleClass="main-sidebar-menu-button, textNote" stylesheets="@../styles/main.css" onMouseClicked="#noteAddTextNoteClicked" />
+            <!--                  <Button fx:id="noteAddBtn" styleClass="main-sidebar-menu-button, checkboxNote" stylesheets="@../styles/main.css" onMouseClicked="#noteAddBtnClicked" pickOnBounds="true" />-->
+         </HBox>
+         <!--            <TreeView fx:id="treeView" styleClass="main-sidebar-tree" VBox.vgrow="ALWAYS" stylesheets="@../styles/main.css" />-->
       </VBox>
    </left>
    <center>
-      <VBox fx:id="notesViewContainer" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <ScrollPane VBox.vgrow="ALWAYS">
-               <content>
-                  <TilePane fx:id="tilePane" hgap="10.0" vgap="10.0">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding></TilePane>
-               </content>
-            </ScrollPane>
-         </children>
+      <VBox fx:id="notesViewContainer">
+         <ScrollPane VBox.vgrow="ALWAYS" fitToWidth="true">
+            <TilePane styleClass="main-notes" stylesheets="@../styles/main.css" fx:id="tilePane" hgap="20.0" vgap="20.0">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </TilePane>
+         </ScrollPane>
       </VBox>
    </center>
 </BorderPane>

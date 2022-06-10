@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.main {
+    -fx-background-color: #FBFBFB;;
+}
+
+.main-header {
+    -fx-pref-height: 50px;
+    -fx-padding: 5px 20px;
+    -fx-background-color: #F0D584;
+}
+
+.main-header-title{
+    -fx-font-size: 32px;
+    -fx-text-fill: #000;
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+    -fx-font-style: italic;
+}
+
+.main-sidebar {
+    -fx-min-width: 340px;
+    -fx-background-color: #FCE397;
+}
+
+.main-sidebar-menu {
+    -fx-background-color: #F0D584;
+    -fx-padding: 15px 10px;
+}
+
+.main-sidebar-menu-button {
+    -fx-pref-width: 50px;
+    -fx-pref-height: 50px;
+    -fx-border-style: none;
+    -fx-border-width: 0;
+    -fx-border-insets: 0;
+    -fx-background-size: 100% 100%;
+    -fx-background-color: transparent;
+}
+
+.main-sidebar-menu-button.textNote {
+    -fx-background-image: url("../img/textNote.png");
+}
+
+.main-sidebar-tree {
+    -fx-padding: 10px 5px;
+    -fx-background-color: transparent;
+}
+
+.main-notes {
+    -fx-padding: 20px;
+}
