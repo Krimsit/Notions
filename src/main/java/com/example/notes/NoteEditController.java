@@ -105,7 +105,7 @@ public class NoteEditController {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.show();
             } else {
-                Controller.getInstance().noteAdd(note);
+                Controller.getInstance().noteAdd("NotesStored", note);
                 Controller.getInstance().noteEditHide();
             }
         }
@@ -118,7 +118,7 @@ public class NoteEditController {
             note.setCreatedOn(now);
             if (prevNoteTitle.equals(note.getTitle())) {
                 Controller.getInstance().noteDelete(prevNoteTitle);
-                Controller.getInstance().noteAdd(note);
+                Controller.getInstance().noteAdd("NotesStored", note);
 
                 Controller.getInstance().noteEditHide();
             }
@@ -127,7 +127,7 @@ public class NoteEditController {
                 alert.show();
             } else {
                 Controller.getInstance().noteDelete(prevNoteTitle);
-                Controller.getInstance().noteAdd(note);
+                Controller.getInstance().noteAdd("NotesStored", note);
 
                 Controller.getInstance().noteEditHide();
             }

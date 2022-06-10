@@ -1,27 +1,27 @@
 package com.example.notes;
 
 import com.example.model.Note;
+import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.Parent;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeView;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.web.HTMLEditor;
+import javafx.util.Duration;
+
 import java.nio.file.*;
 
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 /**
@@ -76,7 +76,7 @@ public class Controller implements Initializable {
     private List<Note> notes;
     //Button for adding note
     @FXML
-    private ImageView noteAddBtn;
+    private Button noteAddTextNote;
 
     private Integer id = 0;
 
@@ -88,23 +88,27 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         updateViewedNotes();
+
+        Animation.ScaleButtonAnimation(noteAddTextNote);
+        Animation.CreateTooltip(noteAddTextNote, "Создать текстовую заметку");
     }
 
     /**
      * Метод обновляет UI отображение заметок на главном окне
      */
     private void updateViewedNotes(){
-        notes = new ArrayList<Note>(getStoredNotes());
-        //notes stored before
+        notes = new ArrayList<Note>(getStoredNotes(new File("NotesStored")));
+
         try {
-            for (int i = 0; i < notes.size(); i++) {
-                //fxmlLoader for loading fxml file of a note
+            for (Note note : notes) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("note.fxml"));
                 VBox box = fxmlLoader.load();
+
                 NoteController noteController = fxmlLoader.getController();
-                noteController.setData(notes.get(i));
-                tilePane.getChildren().add(0,box);
+                noteController.setData(note);
+
+                tilePane.getChildren().add(0, box);
             }
         }
         catch (Exception e) {
@@ -114,27 +118,48 @@ public class Controller implements Initializable {
 
     /**
      * Метод получения списка сохраненных заметок
+     * @param baseFolder папка, где хранятся заметки
      * @return Возвращает список заметок
      */
-    private List<Note> getStoredNotes(){
-        List<Note> ns = new ArrayList<Note>();
-        File folder = new File("NotesStored");
-        if (!folder.exists()) folder.mkdirs();
-        File[] listOfFiles = folder.listFiles();
-        for (File file : listOfFiles) {
-            if (file.isFile()) {
-                //System.out.println(file.getName());
-                //System.out.println(folder + file.getName());
-                File noteFile = new File(folder + "/" + file.getName());
+    private List<Note> getStoredNotes(File baseFolder){
+        List<Note> noteFiles = new ArrayList<Note>();
+
+        getNotesInFolder(baseFolder, noteFiles);
+
+        noteFiles = noteFiles.stream().sorted(Comparator.comparing(Note::getCreatedOn)).collect(Collectors.toList());
+
+        return noteFiles;
+    }
+
+    /**
+     * Метод получения списка сохраненных заметок
+     * @param baseFolder папка, где хранятся заметки
+     * @return Возвращает список заметок
+     */
+    private List<Note> getNotesInFolder(File baseFolder, List<Note> noteFiles){
+        File[] folderEntries = baseFolder.listFiles();
+
+        for (File folderEntry : folderEntries) {
+            if (folderEntry.isDirectory())
+            {
+                getNotesInFolder(folderEntry, noteFiles);
+                continue;
+            }
+
+            if (folderEntry.isFile()) {
+                File noteFile = new File(folderEntry.getPath());
+
                 ObjectInputStream objectInputStream = null;
+
                 try {
                     FileInputStream fileInputStream = new FileInputStream(noteFile);
+
                     if (fileInputStream != null) {
                         objectInputStream = new ObjectInputStream(fileInputStream);
                         Note note = (Note) objectInputStream.readObject();
-                        ns.add(note);
-                    }
 
+                        noteFiles.add(note);
+                    }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -143,7 +168,7 @@ public class Controller implements Initializable {
                     e.printStackTrace();
                 }
                 finally {
-                    if (objectInputStream!=null){
+                    if (objectInputStream != null){
                         try {
                             objectInputStream.close();
                         }
@@ -154,41 +179,15 @@ public class Controller implements Initializable {
                 }
             }
         }
-        ns = ns.stream().sorted(Comparator.comparing(Note::getCreatedOn)).collect(Collectors.toList());
-        return ns;
-    }
-    //temporary stored notes
-    /*
-    private List<Note> notes(){
-        List<Note> ns = new ArrayList<Note>();
-        for (int i =0;i<15;i++) {
-            Note note = new Note();
-            note.setId(tempId++);
-            note.setText("<html dir=\"ltr\"><head></head><body contenteditable=\"true\"><p><span style=\"font-family: &quot;&quot;;\">Sample"+i+"</span></p></body></html>");
-            note.setTitle("Sample Title"+i);
-            try {
 
-                FileOutputStream fileOutputStream = new FileOutputStream(note.getTitle()+".bin");
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-                objectOutputStream.writeObject(note);
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                System.out.println("File not found");
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("I");
-            }
-            ns.add(note);
-        }
-        return ns;
+        return noteFiles;
     }
 
+    /**
+     * Открывает окно добавления заметки
      */
-    //Clicking on imageView of adding text note runs this method
     @FXML
-    private void noteAddBtnClicked() throws IOException {
-        System.out.println("Success");
+    private void noteAddTextNoteClicked() throws IOException {
         try {
             noteEditBox = FXMLLoader.load(getClass().getResource("noteEdit.fxml"));
         } catch (IOException e) {
@@ -196,20 +195,12 @@ public class Controller implements Initializable {
         }
         notesViewContainer.setDisable(true);
         borderPane.setCenter(noteEditBox);
-
-        /*
-        note.setId(tempId++);
-        note.setText("Sample Text");
-        note.setTitle("Sample Title");
-         */
-
     }
 
     /**
      * Возвращает идентификатор последней записки в списке
      */
     public int getLastId(){
-        System.out.println("Here");
         if (notes.size()==0){
             return 0;
         }
@@ -224,7 +215,7 @@ public class Controller implements Initializable {
      * @return true если имя неуникально
      */
     public boolean checkNonUniqueName(String name){
-        File folder = new File("NotesStored");
+        File folder = new File("NotesStored/");
         File[] listOfFiles = folder.listFiles();
         for (File file : listOfFiles) {
             if (file.isFile()) {
@@ -238,26 +229,26 @@ public class Controller implements Initializable {
 
     /**
      * Метод сохраняет заметку на компьютер и запускает сразу режим редактирования
+     * @param baseFolder директория, где хранятся заметки
      * @param note заметка Note
      * @see Note
      */
-    public void noteAdd(Note note){
-        File directory = new File("NotesStored");
+    public void noteAdd(String baseFolder, Note note){
+        File directory = new File(baseFolder + "/" + getCurrentDate());
         if (!directory.exists()) directory.mkdirs();
-        File file = new File("NotesStored/"+note.getTitle()/*+note.getId()*/+".bin");
+
+        File file = new File(baseFolder + "/" + getCurrentDate() + "/" + note.getTitle().replaceAll(" ", "_") + ".bin");
+
         ObjectOutputStream objectOutputStream = null;
+
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(file);
-            if (fileOutputStream !=null){
+
+            if (fileOutputStream != null){
                 objectOutputStream = new ObjectOutputStream(fileOutputStream);
                 objectOutputStream.writeObject(note);
-                notes.add(note);
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("note.fxml"));
-                VBox box = fxmlLoader.load();
-                NoteController noteController = fxmlLoader.getController();
-                noteController.setData(notes.get(notes.size()-1));
-                tilePane.getChildren().add(0,box);
+
+                updateViewedNotes();
             }
         }
         catch (FileNotFoundException e){
@@ -289,27 +280,25 @@ public class Controller implements Initializable {
 
     /**
      * Производит поиск заметки на компьютере и в случае успеха переходит в режим ее редактирования
+     * @param baseFolder директория, где хранятся заметки
      * @param title заголовок заметки по которому происходит поиск
      */
-    public void noteEdit(String title){
-        System.out.println(title);
-        System.out.println("Нашлось");
-        File folder = new File("NotesStored");
-        File file = new File(folder+"/"+title+".bin");
+    public void noteEdit(String baseFolder, String title){
+        File file = new File(baseFolder+"/"+title+".bin");
+
         if (file.isFile()) {
-            //System.out.println(file.getName());
-            //System.out.println(folder + file.getName());
             Note note = new Note();
+
             ObjectInputStream objectInputStream = null;
-            System.out.println("Its a file");
+
             try {
                 FileInputStream fileInputStream = new FileInputStream(file);
+
                 if (fileInputStream != null) {
                     objectInputStream = new ObjectInputStream(fileInputStream);
                     note = (Note) objectInputStream.readObject();
-//                    System.out.println(note.getId());
-//                    System.out.println(note.getTitle());
-//                    System.out.println(note.getCreatedOn());
+
+                    updateViewedNotes();
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -364,6 +353,19 @@ public class Controller implements Initializable {
         tilePane.getChildren().clear();
         updateViewedNotes();
 
+    }
+
+    /**
+     * Получает текущую дату
+     * @return текущая дата в формате dd-MM-yy
+     */
+    public String getCurrentDate() {
+        Date date = new Date();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy");
+        String _date = formatter.format(date);
+
+        return _date;
     }
 
     /**
