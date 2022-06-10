@@ -4,8 +4,11 @@ import com.example.notes.Controller;
 import com.example.model.Note;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -13,15 +16,17 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
 
 import static java.lang.Integer.parseInt;
 
 /**
  * Контроллер сущности "заметка", реализующий логику работы панели заметок на главном окне
  */
-public class NoteController {
+public class NoteController implements Initializable {
     /**
      * Поле панели "заметка". Является синглтоном класса NoteController
      */
@@ -47,10 +52,10 @@ public class NoteController {
     private Label noteId;
 
     @FXML
-    private ImageView noteDelete;
+    private Button noteDeleteBtn;
 
     @FXML
-    private ImageView noteEditBtn;
+    private Button noteEditBtn;
 
     @FXML
     private WebView noteText;
@@ -61,6 +66,14 @@ public class NoteController {
 
     @FXML
     private Label noteDate;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        Animation.ScaleButtonAnimation(noteDeleteBtn);
+        Animation.ScaleButtonAnimation(noteEditBtn);
+        Animation.CreateTooltip(noteDeleteBtn, "Удалить заметку");
+        Animation.CreateTooltip(noteEditBtn, "Редактировать заметку");
+    }
 
     /**
      * Поле формат даты. Используется при формировании даты создания заметки
@@ -87,7 +100,7 @@ public class NoteController {
     @FXML
     public void editNoteBtnClicked(MouseEvent mouseEvent) {
         String title = noteTitle.getText();
-        Controller.getInstance().noteEdit(title);
+        Controller.getInstance().noteEdit("NotesStored", title);
     }
 
     /**
