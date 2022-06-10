@@ -1,43 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.web.WebView?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.*?>
 
-<VBox fx:id="noteContainer" prefHeight="300.0" prefWidth="250.0" style="-fx-border-radius: 15; -fx-border-color: black; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.notes.NoteController">
-   <children>
-      <Label fx:id="noteTitle" text="Title">
-         <font>
-            <Font name="Cambria Bold Italic" size="30.0" />
-         </font>
-         <padding>
-            <Insets left="10.0" top="10.0" />
-         </padding>
-      </Label>
-      <WebView fx:id="noteText" blendMode="DARKEN" disable="true" fontScale="0.9" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-      <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-         <children>
-            <Label fx:id="noteDate" text="Date" />
-            <Label fx:id="noteId" text="ID" HBox.hgrow="NEVER" />
-            <ImageView fx:id="noteDelete" fitHeight="35.0" fitWidth="35.0" onMouseClicked="#deleteNoteBtnClicked" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../img/delete.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="noteEditBtn" fitHeight="35.0" fitWidth="35.0" onMouseClicked="#editNoteBtnClicked" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../img/edit.png" />
-               </image>
-            </ImageView>
-         </children>
-         <padding>
-            <Insets right="10.0" />
-         </padding>
-      </HBox>
-   </children>
+<VBox fx:id="noteContainer" styleClass="note" stylesheets="@../styles/note.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.notes.NoteController">
+   <Label fx:id="noteTitle" styleClass="note-title" stylesheets="@../styles/note.css" />
+   <WebView fx:id="noteText" disable="true" styleClass="note-text" stylesheets="@../styles/note.css" />
+   <HBox styleClass="note-footer" stylesheets="@../styles/note.css">
+      <Label fx:id="noteDate" />
+      <Label fx:id="noteId" />
+      <Region HBox.hgrow="SOMETIMES" />
+      <Button fx:id="noteDeleteBtn" styleClass="note-footer-button, delete" stylesheets="@../styles/note.css" onMouseClicked="#deleteNoteBtnClicked" />
+      <Button fx:id="noteEditBtn" styleClass="note-footer-button, edit" stylesheets="@../styles/note.css" onMouseClicked="#editNoteBtnClicked" />
+   </HBox>
 </VBox>

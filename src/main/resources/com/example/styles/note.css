@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.note {
+    -fx-background-color: #fff;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-padding: 15px;
+    -fx-spacing: 10px;
+    -fx-pref-width: 330px;
+    -fx-pref-height: 330px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.25), 10, 0, -4, 4);
+}
+
+.note:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.025;
+}
+
+.note-title {
+    -fx-font-size: 24px;
+    -fx-text-fill: #000;
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+}
+
+.note-text {
+    -fx-font-size: 20px;
+    -fx-text-fill: #000;
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 400;
+}
+
+.note-footer {
+    -fx-font-size: 12px;
+    -fx-text-fill: #000;
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 300;
+    -fx-spacing: 15px;
+    -fx-alignment: center;
+}
+
+.note-footer-button {
+    -fx-pref-width: 24px;
+    -fx-pref-height: 24px;
+    -fx-border-style: none;
+    -fx-border-width: 0;
+    -fx-border-insets: 0;
+    -fx-background-size: 100% 100%;
+    -fx-background-color: transparent;
+}
+
+.note-footer-button.delete {
+    -fx-background-image: url("../img/delete.png");
+}
+
+.note-footer-button.edit {
+    -fx-background-image: url("../img/edit.png");
+}
