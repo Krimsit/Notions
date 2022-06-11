@@ -9,16 +9,14 @@
       <HBox styleClass="main-header" stylesheets="@../styles/main.css">
          <Label styleClass="main-header-title" stylesheets="@../styles/main.css" text="Notes" />
          <Region HBox.hgrow="SOMETIMES" />
-         <!--            <ChoiceBox style="-fx-background-color: F0D584;" />-->
       </HBox>
    </top>
    <left>
       <VBox styleClass="main-sidebar" stylesheets="@../styles/main.css">
          <HBox styleClass="main-sidebar-menu" stylesheets="@../styles/main.css">
-            <Button fx:id="noteAddTextNote" styleClass="main-sidebar-menu-button, textNote" stylesheets="@../styles/main.css" onMouseClicked="#noteAddTextNoteClicked" />
-            <!--                  <Button fx:id="noteAddBtn" styleClass="main-sidebar-menu-button, checkboxNote" stylesheets="@../styles/main.css" onMouseClicked="#noteAddBtnClicked" pickOnBounds="true" />-->
+            <Button fx:id="noteAddTextNote" styleClass="main-sidebar-menu-button, textNote" stylesheets="@../styles/main.css" onMouseClicked="#addNote" />
          </HBox>
-         <!--            <TreeView fx:id="treeView" styleClass="main-sidebar-tree" VBox.vgrow="ALWAYS" stylesheets="@../styles/main.css" />-->
+         <TreeView fx:id="treeView" styleClass="main-sidebar-tree" VBox.vgrow="ALWAYS" stylesheets="@../styles/main.css" />
       </VBox>
    </left>
    <center>
