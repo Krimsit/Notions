@@ -9,6 +9,7 @@ module com.example.notes {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires FXTrayIcon;
 
     opens com.example.notes to javafx.fxml;
     exports com.example.notes;
