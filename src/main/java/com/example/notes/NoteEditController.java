@@ -1,138 +1,192 @@
 package com.example.notes;
+
 import com.example.model.Note;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.scene.web.HTMLEditor;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 
 /**
  * Контроллер редактирования заметки, реализующий логику наполнения и изменения заметки
  */
 public class NoteEditController {
-
     /**
-     * Ссылка на синглтон класса NoteEditController
+     * Синглтон класса NoteEditController
      */
     private static NoteEditController instance;
 
     /**
      * Базовый конструктор
      */
-    public NoteEditController(){
-
+    public NoteEditController() {
         instance = this;
     }
 
 
     /**
-     * Возвращает ссылку на синглтон класса NoteEditController
+     * Получает ссылку на синглтон класса NoteEditController
+     *
+     * @return Возвращает ссылку на синглтон класса NoteEditController
      */
-    public static NoteEditController getInstance(){
-
+    public static NoteEditController getInstance() {
         return instance;
     }
 
-    /**
-     * Кнопка отмены
-     */
     @FXML
-    private Button noteEditCancelBtn;
-
-    /**
-     * Поле заголовок
-     */
+    private VBox noteEditContainer;
     @FXML
     private TextField noteEditTitle;
-
-    /**
-     * Кнопка сохранить редактирование
-     */
-    @FXML
-    private Button noteEditSaveBtn;
-
-    /**
-     * Текст редактируемой заметки в HTML формате
-     */
     @FXML
     private HTMLEditor noteEditText;
 
-    private static Note note;
     private static boolean editMode = false;
+
+    /**
+     * Скрывает режим редактирования заметки
+     */
+    private void closeEdit() {
+        Controller.getInstance().borderPane.setCenter(Controller.getInstance().notesViewContainer);
+        Controller.getInstance().updateViewedNotes();
+    }
+
+    /**
+     * Метод сохраняет/обновляет заметку на компьютер
+     *
+     * @param note заметка Note
+     * @see Note
+     */
+    public void add(Note note) {
+        File directory = new File("NotesStored/" + Controller.getInstance().getCurrentDate());
+
+        if (!directory.exists()) directory.mkdirs();
+
+        File file = new File(directory.getPath() + "/" + note.getTitle().replaceAll(" ", "_") + ".bin");
+
+        ObjectOutputStream objectOutputStream = null;
+
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+
+            if (fileOutputStream != null) {
+                objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                objectOutputStream.writeObject(note);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (objectOutputStream != null) {
+                try {
+                    objectOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
     private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-uu");
 
     /**
-     * Метод переводит заметку в режим редактирования
-     * @param noteToEdit редактируемая заметка
-     * @see Note
+     * Производит поиск заметки на компьютере и в случае успеха переходит в режим ее редактирования
+     *
+     * @param noteFileName заголовок заметки по которому происходит поиск
      */
-    public void setEditMode(Note noteToEdit){
-        editMode = true;
-        note = noteToEdit;
-        System.out.println(note.getId());
-        System.out.println(note.getTitle());
-        System.out.println(note.getText());
+    public void edit(String noteFileName) {
+        Note note = noteFileName != null ? Controller.getInstance().findNote(noteFileName) : new Note();
+
+        editMode = noteFileName != null ? true : false;
+
         noteEditTitle.setText(note.getTitle());
         noteEditText.setHtmlText(note.getText());
+
+        Controller.getInstance().borderPane.setCenter(noteEditContainer);
+    }
+
+    /**
+     * Производит поиск заметки на компьютере и в случае успеха удаляет ее
+     *
+     * @param noteName заголовок заметки
+     */
+    public void delete(String noteName) {
+        File noteFile = Controller.getInstance().findNoteFile(noteName);
+
+        String noteFilePath = noteFile.getAbsolutePath();
+
+        try {
+            Files.delete(Path.of(noteFilePath));
+        } catch (NoSuchFileException e) {
+            System.out.println(
+                    "No such file/directory exists");
+        } catch (DirectoryNotEmptyException e) {
+            System.out.println("Directory is not empty.");
+        } catch (IOException e) {
+            System.out.println("Invalid permissions.");
+        }
+
+        Controller.getInstance().updateViewedNotes();
+    }
+
+    /**
+     * Проверяет название создаваемого файла на уникальность
+     *
+     * @param noteName название создаваемого файла
+     * @return true если имя неуникально
+     */
+    private boolean checkNonUniqueName(String noteName) {
+        Note note = Controller.getInstance().findNote(noteName);
+
+        if (note.getId() != null && note.getTitle() == noteName) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
      * Вызывается при нажатии на кнопку отмены редактирования
      */
     @FXML
-    private void noteEditCancelBtnClicked(){
-        Controller.getInstance().noteEditHide();
+    private void exitFromEditMote() {
+        closeEdit();
     }
 
     /**
      * Вызывается при нажатии на кнопку сохранить изменения
-     * @throws IOException
      */
     @FXML
-    private void noteEditSaveBtnClicked() throws IOException {
+    private void saveNote() {
+        Note note = new Note();
+
+        LocalDateTime createdOnDate = LocalDateTime.now();
+
+        note.setText(noteEditText.getHtmlText());
+        note.setTitle(noteEditTitle.getText());
+        note.setCreatedOn(createdOnDate);
+
         if (!editMode) {
-            Note note = new Note();
-            note.setId(Controller.getInstance().getLastId() + 1);
-            note.setText(noteEditText.getHtmlText());
-            note.setTitle(noteEditTitle.getText());
-            LocalDateTime now = LocalDateTime.now();
-            note.setCreatedOn(now);
-            if (Controller.getInstance().checkNonUniqueName(note.getTitle())) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.show();
-            } else {
-                Controller.getInstance().noteAdd("NotesStored", note);
-                Controller.getInstance().noteEditHide();
-            }
+            String noteId = UUID.randomUUID().toString();
+            note.setId(noteId);
         }
-        else{
-            String prevNoteTitle = note.getTitle();
-            note.setText(noteEditText.getHtmlText());
-            note.setTitle(noteEditTitle.getText());
-            System.out.println("---"+prevNoteTitle+"----"+note.getTitle());
-            LocalDateTime now = LocalDateTime.now();
-            note.setCreatedOn(now);
-            if (prevNoteTitle.equals(note.getTitle())) {
-                Controller.getInstance().noteDelete(prevNoteTitle, note.getCreatedOn().format(dtf));
-                Controller.getInstance().noteAdd("NotesStored", note);
 
-                Controller.getInstance().noteEditHide();
-            }
-            else if (Controller.getInstance().checkNonUniqueName(note.getTitle())) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.show();
-            } else {
-                Controller.getInstance().noteDelete(prevNoteTitle, note.getCreatedOn().format(dtf));
-                Controller.getInstance().noteAdd("NotesStored", note);
+        if (checkNonUniqueName(note.getTitle())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.show();
+        } else {
+            add(note);
+            closeEdit();
 
-                Controller.getInstance().noteEditHide();
-            }
             editMode = false;
         }
     }

@@ -18,7 +18,7 @@ public class Note implements Serializable{
     /**
      * Идентификатор заметки
      */
-    private Integer id;
+    private String id;
     /**
      * Дата создания
      */
@@ -76,7 +76,7 @@ public class Note implements Serializable{
      * Get метод
      * @return возвращает идентификатор заметки
      */
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -84,7 +84,7 @@ public class Note implements Serializable{
      * Set метод. Присваивает идентификатор заметки
      * @param id - идентификатор
      */
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
