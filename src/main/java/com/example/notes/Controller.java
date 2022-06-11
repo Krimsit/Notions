@@ -272,7 +272,7 @@ public class Controller implements Initializable {
         if (noteName != null) {
             List<Note> notes = new ArrayList<Note>(getAllNotes());
 
-            for (Note note : notes) {
+          for (Note note : notes) {
                 if (note.getTitle().equals(noteName)) {
                     return note;
                 }
@@ -301,6 +301,7 @@ public class Controller implements Initializable {
 
         return null;
     }
+
 
     /**
      * Получает текущую дату

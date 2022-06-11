@@ -47,6 +47,11 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>com.dustinredmond.fxtrayicon</groupId>
+            <artifactId>FXTrayIcon</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+        <dependency>
             <groupId>net.synedra</groupId>
             <artifactId>validatorfx</artifactId>
             <version>0.1.13</version>

@@ -96,6 +96,8 @@ public class NoteEditController {
         }
     }
 
+    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-uu");
+
     /**
      * Производит поиск заметки на компьютере и в случае успеха переходит в режим ее редактирования
      *
