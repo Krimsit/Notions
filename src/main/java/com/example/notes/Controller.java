@@ -283,8 +283,8 @@ public class Controller implements Initializable {
      * @param baseFolder директория, где хранятся заметки
      * @param title заголовок заметки по которому происходит поиск
      */
-    public void noteEdit(String baseFolder, String title){
-        File file = new File(baseFolder+"/"+title+".bin");
+    public void noteEdit(String baseFolder, String title, String createdOn){
+        File file = new File(baseFolder+"/"+createdOn+"/"+title+".bin");
 
         if (file.isFile()) {
             Note note = new Note();
@@ -335,10 +335,10 @@ public class Controller implements Initializable {
      * @throws NoSuchFileException
      * @throws DirectoryNotEmptyException
      */
-    public void noteDelete(String title) throws IOException {
+    public void noteDelete(String title, String createdTime) throws IOException {
         try {
             Files.deleteIfExists(
-                    Paths.get("NotesStored\\"+title+".bin"));
+                    Paths.get("NotesStored\\"+createdTime+"\\"+title+".bin"));
         }
         catch (NoSuchFileException e) {
             System.out.println(
@@ -354,6 +354,7 @@ public class Controller implements Initializable {
         updateViewedNotes();
 
     }
+
 
     /**
      * Получает текущую дату

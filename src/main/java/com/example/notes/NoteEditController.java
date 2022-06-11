@@ -65,6 +65,8 @@ public class NoteEditController {
     private static Note note;
     private static boolean editMode = false;
 
+    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-uu");
+
     /**
      * Метод переводит заметку в режим редактирования
      * @param noteToEdit редактируемая заметка
@@ -117,7 +119,7 @@ public class NoteEditController {
             LocalDateTime now = LocalDateTime.now();
             note.setCreatedOn(now);
             if (prevNoteTitle.equals(note.getTitle())) {
-                Controller.getInstance().noteDelete(prevNoteTitle);
+                Controller.getInstance().noteDelete(prevNoteTitle, note.getCreatedOn().format(dtf));
                 Controller.getInstance().noteAdd("NotesStored", note);
 
                 Controller.getInstance().noteEditHide();
@@ -126,7 +128,7 @@ public class NoteEditController {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.show();
             } else {
-                Controller.getInstance().noteDelete(prevNoteTitle);
+                Controller.getInstance().noteDelete(prevNoteTitle, note.getCreatedOn().format(dtf));
                 Controller.getInstance().noteAdd("NotesStored", note);
 
                 Controller.getInstance().noteEditHide();

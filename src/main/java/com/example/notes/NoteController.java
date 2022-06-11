@@ -78,7 +78,7 @@ public class NoteController implements Initializable {
     /**
      * Поле формат даты. Используется при формировании даты создания заметки
      */
-    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
+    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-uu");
 
     /**
      * Заполняет информацией заметку на главном окне
@@ -100,7 +100,8 @@ public class NoteController implements Initializable {
     @FXML
     public void editNoteBtnClicked(MouseEvent mouseEvent) {
         String title = noteTitle.getText();
-        Controller.getInstance().noteEdit("NotesStored", title);
+        String createdTime = noteDate.getText();
+        Controller.getInstance().noteEdit("NotesStored", title, createdTime);
     }
 
     /**
@@ -111,7 +112,8 @@ public class NoteController implements Initializable {
     @FXML
     public void deleteNoteBtnClicked(MouseEvent mouseEvent) throws IOException {
         String title = noteTitle.getText();
-        Controller.getInstance().noteDelete(title);
+        String createdTime = noteDate.getText();
+        Controller.getInstance().noteDelete(title, createdTime);
     }
 
     /**
