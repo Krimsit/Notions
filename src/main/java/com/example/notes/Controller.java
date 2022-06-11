@@ -32,7 +32,7 @@ public class Controller implements Initializable {
     /**
      * Базовый конструктор
      */
-    public Controller () {
+    public Controller() {
         instance = this;
     }
 
@@ -41,7 +41,7 @@ public class Controller implements Initializable {
      *
      * @return Возвращает ссылку на синглтон класса Controller
      */
-    public static Controller getInstance () {
+    public static Controller getInstance() {
         return instance;
     }
 
@@ -54,9 +54,9 @@ public class Controller implements Initializable {
 
     {
         try {
-            noteEditContainer = FXMLLoader.load (Objects.requireNonNull (getClass ().getResource ("noteEdit.fxml")));
+            noteEditContainer = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("noteEdit.fxml")));
         } catch (IOException e) {
-            e.printStackTrace ();
+            e.printStackTrace();
         }
     }
 
@@ -77,54 +77,54 @@ public class Controller implements Initializable {
      * @param resourceBundle
      */
     @Override
-    public void initialize (URL url, ResourceBundle resourceBundle) {
-        updateViewedNotes ();
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        updateViewedNotes();
 
-        Animation.ScaleButtonAnimation (noteAddTextNote);
-        Animation.CreateTooltip (noteAddTextNote, "Создать текстовую заметку");
+        Animation.ScaleButtonAnimation(noteAddTextNote);
+        Animation.CreateTooltip(noteAddTextNote, "Создать текстовую заметку");
     }
 
     /**
      * Метод обновляет UI отображение заметок на главном окне
      */
-    public void updateViewedNotes () {
-        clearEmptyFolder ();
-        createNotesTreeView ();
-        createNotesPlane ();
+    public void updateViewedNotes() {
+        clearEmptyFolder();
+        createNotesTreeView();
+        createNotesPlane();
     }
 
     /**
      * Создаеёт TreeView на основе папки с заметками
      */
-    private void createNotesTreeView () {
-        File baseFolder = new File ("NotesStored");
+    private void createNotesTreeView() {
+        File baseFolder = new File("NotesStored");
 
-        if (baseFolder.exists ()) {
-            File[] fileList = baseFolder.listFiles ();
+        if (baseFolder.exists()) {
+            File[] fileList = baseFolder.listFiles();
 
-            TreeItem rootTreeItem = new TreeItem (baseFolder.getName ());
+            TreeItem rootTreeItem = new TreeItem(baseFolder.getName());
 
-            treeView.setShowRoot (false);
+            treeView.setShowRoot(false);
 
             try {
                 for (File file : fileList) {
-                    getNotesTreeBranches (file, rootTreeItem);
+                    getNotesTreeBranches(file, rootTreeItem);
                 }
 
-                treeView.setRoot (rootTreeItem);
+                treeView.setRoot(rootTreeItem);
 
-                treeView.getSelectionModel ().selectedItemProperty ().addListener (new ChangeListener<TreeItem<?>> () {
+                treeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<?>>() {
                     @Override
-                    public void changed (ObservableValue<? extends TreeItem<?>> observable, TreeItem<?> oldValue, TreeItem<?> newValue) {
+                    public void changed(ObservableValue<? extends TreeItem<?>> observable, TreeItem<?> oldValue, TreeItem<?> newValue) {
                         if (newValue != null) {
                             TreeItem<String> selectedItem = (TreeItem<String>) newValue;
 
-                            NoteEditController.getInstance ().edit (selectedItem.getValue ());
+                            NoteEditController.getInstance().edit(selectedItem.getValue());
                         }
                     }
                 });
             } catch (Exception e) {
-                e.printStackTrace ();
+                e.printStackTrace();
             }
         }
     }
@@ -132,24 +132,24 @@ public class Controller implements Initializable {
     /**
      * Создаеёт TreeView на основе папки с заметками
      */
-    private void createNotesPlane () {
-        tilePane.getChildren ().clear ();
+    private void createNotesPlane() {
+        tilePane.getChildren().clear();
 
-        List<Note> notes = new ArrayList<Note> (getAllNotes ());
+        List<Note> notes = new ArrayList<Note>(getAllNotes());
 
         try {
             for (Note note : notes) {
-                FXMLLoader fxmlLoader = new FXMLLoader ();
-                fxmlLoader.setLocation (getClass ().getResource ("note.fxml"));
-                VBox box = fxmlLoader.load ();
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("note.fxml"));
+                VBox box = fxmlLoader.load();
 
-                NoteController noteController = fxmlLoader.getController ();
-                noteController.setData (note);
+                NoteController noteController = fxmlLoader.getController();
+                noteController.setData(note);
 
-                tilePane.getChildren ().add (0, box);
+                tilePane.getChildren().add(0, box);
             }
         } catch (Exception e) {
-            e.printStackTrace ();
+            e.printStackTrace();
         }
     }
 
@@ -158,43 +158,43 @@ public class Controller implements Initializable {
      *
      * @return Возвращает список заметок
      */
-    private List<Note> getAllNotes () {
-        List<Note> notes = new ArrayList<Note> ();
+    private List<Note> getAllNotes() {
+        List<Note> notes = new ArrayList<Note>();
 
-        List<File> noteFiles = getNoteFilesInFolder ("NotesStored");
+        List<File> noteFiles = getNoteFilesInFolder("NotesStored");
 
         for (File noteFile : noteFiles) {
-            if (noteFile.isFile ()) {
+            if (noteFile.isFile()) {
                 ObjectInputStream objectInputStream = null;
 
                 try {
-                    FileInputStream fileInputStream = new FileInputStream (noteFile);
+                    FileInputStream fileInputStream = new FileInputStream(noteFile);
 
                     if (fileInputStream != null) {
-                        objectInputStream = new ObjectInputStream (fileInputStream);
-                        Note note = (Note) objectInputStream.readObject ();
+                        objectInputStream = new ObjectInputStream(fileInputStream);
+                        Note note = (Note) objectInputStream.readObject();
 
-                        notes.add (note);
+                        notes.add(note);
                     }
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace ();
+                    e.printStackTrace();
                 } catch (IOException e) {
-                    e.printStackTrace ();
+                    e.printStackTrace();
                 } catch (ClassNotFoundException e) {
-                    e.printStackTrace ();
+                    e.printStackTrace();
                 } finally {
                     if (objectInputStream != null) {
                         try {
-                            objectInputStream.close ();
+                            objectInputStream.close();
                         } catch (IOException e) {
-                            e.printStackTrace ();
+                            e.printStackTrace();
                         }
                     }
                 }
             }
         }
 
-        notes = notes.stream ().sorted (Comparator.comparing (Note::getCreatedOn)).collect (Collectors.toList ());
+        notes = notes.stream().sorted(Comparator.comparing(Note::getCreatedOn)).collect(Collectors.toList());
 
         return notes;
     }
@@ -204,17 +204,17 @@ public class Controller implements Initializable {
      *
      * @return Возвращает список файлов заметок
      */
-    private List<File> getNoteFilesInFolder (String directoryName) {
-        List<File> files = new ArrayList<> ();
+    private List<File> getNoteFilesInFolder(String directoryName) {
+        List<File> files = new ArrayList<>();
 
-        File baseFolder = new File (directoryName);
+        File baseFolder = new File(directoryName);
 
-        if (baseFolder.exists ()) {
-            for (File file : baseFolder.listFiles ()) {
-                if (file.isFile ()) {
-                    files.add (file);
-                } else if (file.isDirectory ()) {
-                    files.addAll (getNoteFilesInFolder (file.getAbsolutePath ()));
+        if (baseFolder.exists()) {
+            for (File file : baseFolder.listFiles()) {
+                if (file.isFile()) {
+                    files.add(file);
+                } else if (file.isDirectory()) {
+                    files.addAll(getNoteFilesInFolder(file.getAbsolutePath()));
                 }
             }
         }
@@ -229,34 +229,34 @@ public class Controller implements Initializable {
      * @param parentNode родительская ветка
      * @return Возвращает список заметок
      */
-    private void getNotesTreeBranches (File baseEntry, TreeItem parentNode) {
-        if (baseEntry.isDirectory ()) {
-            TreeItem branch = new TreeItem (baseEntry.getName ());
+    private void getNotesTreeBranches(File baseEntry, TreeItem parentNode) {
+        if (baseEntry.isDirectory()) {
+            TreeItem branch = new TreeItem(baseEntry.getName());
 
-            branch.setExpanded (true);
+            branch.setExpanded(true);
 
-            parentNode.getChildren ().add (branch);
+            parentNode.getChildren().add(branch);
 
-            for (File entry : baseEntry.listFiles ()) {
-                getNotesTreeBranches (entry, branch);
+            for (File entry : baseEntry.listFiles()) {
+                getNotesTreeBranches(entry, branch);
             }
         } else {
-            TreeItem node = new TreeItem (baseEntry.getName ().replace (".bin", ""));
+            TreeItem node = new TreeItem(baseEntry.getName().replace(".bin", ""));
 
-            parentNode.getChildren ().add (node);
+            parentNode.getChildren().add(node);
         }
     }
 
     /**
      * Удаляет пустые папки
      */
-    private void clearEmptyFolder () {
-        File baseFolder = new File ("NotesStored");
+    private void clearEmptyFolder() {
+        File baseFolder = new File("NotesStored");
 
-        if (baseFolder.exists ()) {
-            for (File fonderEntry : baseFolder.listFiles ()) {
-                if (fonderEntry.isDirectory ()) {
-                    fonderEntry.delete ();
+        if (baseFolder.exists()) {
+            for (File fonderEntry : baseFolder.listFiles()) {
+                if (fonderEntry.isDirectory()) {
+                    fonderEntry.delete();
                 }
             }
         }
@@ -268,18 +268,18 @@ public class Controller implements Initializable {
      * @param noteName имя файла
      * @return Объект заметки
      */
-    public Note findNote (String noteName) {
+    public Note findNote(String noteName) {
         if (noteName != null) {
-            List<Note> notes = new ArrayList<Note> (getAllNotes ());
+            List<Note> notes = new ArrayList<Note>(getAllNotes());
 
             for (Note note : notes) {
-                if (note.getTitle ().equals (noteName)) {
+                if (note.getTitle().equals(noteName)) {
                     return note;
                 }
             }
         }
 
-        return new Note ();
+        return new Note();
     }
 
     /**
@@ -288,12 +288,12 @@ public class Controller implements Initializable {
      * @param noteName имя файла
      * @return файл заметки
      */
-    public File findNoteFile (String noteName) {
-        if (!noteName.isEmpty ()) {
-            List<File> noteFiles = new ArrayList<File> (getNoteFilesInFolder ("NotesStored"));
+    public File findNoteFile(String noteName) {
+        if (!noteName.isEmpty()) {
+            List<File> noteFiles = new ArrayList<File>(getNoteFilesInFolder("NotesStored"));
 
             for (File file : noteFiles) {
-                if (file.getName ().equals (noteName + ".bin")) {
+                if (file.getName().equals(noteName + ".bin")) {
                     return file;
                 }
             }
@@ -307,11 +307,11 @@ public class Controller implements Initializable {
      *
      * @return текущая дата в формате dd-MM-yy
      */
-    public String getCurrentDate () {
-        Date date = new Date ();
+    public String getCurrentDate() {
+        Date date = new Date();
 
-        SimpleDateFormat formatter = new SimpleDateFormat ("dd-MM-yy");
-        String _date = formatter.format (date);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy");
+        String _date = formatter.format(date);
 
         return _date;
     }
@@ -321,15 +321,15 @@ public class Controller implements Initializable {
      *
      * @param width ширина окна
      */
-    public void resizeTilePane (double width) {
-        tilePane.setPrefWidth (width - 275);
+    public void resizeTilePane(double width) {
+        tilePane.setPrefWidth(width - 275);
     }
 
     /**
      * Открывает окно добавления заметки
      */
     @FXML
-    public void addNote () {
-        NoteEditController.getInstance ().edit (null);
+    public void addNote() {
+        NoteEditController.getInstance().edit(null);
     }
 }

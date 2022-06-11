@@ -28,7 +28,7 @@ public class NoteEditController {
     /**
      * Базовый конструктор
      */
-    public NoteEditController () {
+    public NoteEditController() {
         instance = this;
     }
 
@@ -38,7 +38,7 @@ public class NoteEditController {
      *
      * @return Возвращает ссылку на синглтон класса NoteEditController
      */
-    public static NoteEditController getInstance () {
+    public static NoteEditController getInstance() {
         return instance;
     }
 
@@ -54,9 +54,9 @@ public class NoteEditController {
     /**
      * Скрывает режим редактирования заметки
      */
-    private void closeEdit () {
-        Controller.getInstance ().borderPane.setCenter (Controller.getInstance ().notesViewContainer);
-        Controller.getInstance ().updateViewedNotes ();
+    private void closeEdit() {
+        Controller.getInstance().borderPane.setCenter(Controller.getInstance().notesViewContainer);
+        Controller.getInstance().updateViewedNotes();
     }
 
     /**
@@ -65,32 +65,32 @@ public class NoteEditController {
      * @param note заметка Note
      * @see Note
      */
-    public void add (Note note) {
-        File directory = new File ("NotesStored/" + Controller.getInstance ().getCurrentDate ());
+    public void add(Note note) {
+        File directory = new File("NotesStored/" + Controller.getInstance().getCurrentDate());
 
-        if (!directory.exists ()) directory.mkdirs ();
+        if (!directory.exists()) directory.mkdirs();
 
-        File file = new File (directory.getPath () + "/" + note.getTitle ().replaceAll (" ", "_") + ".bin");
+        File file = new File(directory.getPath() + "/" + note.getTitle().replaceAll(" ", "_") + ".bin");
 
         ObjectOutputStream objectOutputStream = null;
 
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream (file);
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
 
             if (fileOutputStream != null) {
-                objectOutputStream = new ObjectOutputStream (fileOutputStream);
-                objectOutputStream.writeObject (note);
+                objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                objectOutputStream.writeObject(note);
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace ();
+            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace ();
+            e.printStackTrace();
         } finally {
             if (objectOutputStream != null) {
                 try {
-                    objectOutputStream.close ();
+                    objectOutputStream.close();
                 } catch (IOException e) {
-                    e.printStackTrace ();
+                    e.printStackTrace();
                 }
             }
         }
@@ -101,15 +101,15 @@ public class NoteEditController {
      *
      * @param noteFileName заголовок заметки по которому происходит поиск
      */
-    public void edit (String noteFileName) {
-        Note note = noteFileName != null ? Controller.getInstance ().findNote (noteFileName) : new Note ();
+    public void edit(String noteFileName) {
+        Note note = noteFileName != null ? Controller.getInstance().findNote(noteFileName) : new Note();
 
         editMode = noteFileName != null ? true : false;
 
-        noteEditTitle.setText (note.getTitle ());
-        noteEditText.setHtmlText (note.getText ());
+        noteEditTitle.setText(note.getTitle());
+        noteEditText.setHtmlText(note.getText());
 
-        Controller.getInstance ().borderPane.setCenter (noteEditContainer);
+        Controller.getInstance().borderPane.setCenter(noteEditContainer);
     }
 
     /**
@@ -117,23 +117,23 @@ public class NoteEditController {
      *
      * @param noteName заголовок заметки
      */
-    public void delete (String noteName) {
-        File noteFile = Controller.getInstance ().findNoteFile (noteName);
+    public void delete(String noteName) {
+        File noteFile = Controller.getInstance().findNoteFile(noteName);
 
-        String noteFilePath = noteFile.getAbsolutePath ();
+        String noteFilePath = noteFile.getAbsolutePath();
 
         try {
-            Files.delete (Path.of (noteFilePath));
+            Files.delete(Path.of(noteFilePath));
         } catch (NoSuchFileException e) {
-            System.out.println (
+            System.out.println(
                     "No such file/directory exists");
         } catch (DirectoryNotEmptyException e) {
-            System.out.println ("Directory is not empty.");
+            System.out.println("Directory is not empty.");
         } catch (IOException e) {
-            System.out.println ("Invalid permissions.");
+            System.out.println("Invalid permissions.");
         }
 
-        Controller.getInstance ().updateViewedNotes ();
+        Controller.getInstance().updateViewedNotes();
     }
 
     /**
@@ -142,10 +142,10 @@ public class NoteEditController {
      * @param noteName название создаваемого файла
      * @return true если имя неуникально
      */
-    private boolean checkNonUniqueName (String noteName) {
-        Note note = Controller.getInstance ().findNote (noteName);
+    private boolean checkNonUniqueName(String noteName) {
+        Note note = Controller.getInstance().findNote(noteName);
 
-        if (note.getId () != null && note.getTitle () == noteName) {
+        if (note.getId() != null && note.getTitle() == noteName) {
             return true;
         }
 
@@ -156,34 +156,34 @@ public class NoteEditController {
      * Вызывается при нажатии на кнопку отмены редактирования
      */
     @FXML
-    private void exitFromEditMote () {
-        closeEdit ();
+    private void exitFromEditMote() {
+        closeEdit();
     }
 
     /**
      * Вызывается при нажатии на кнопку сохранить изменения
      */
     @FXML
-    private void saveNote () {
-        Note note = new Note ();
+    private void saveNote() {
+        Note note = new Note();
 
-        LocalDateTime createdOnDate = LocalDateTime.now ();
+        LocalDateTime createdOnDate = LocalDateTime.now();
 
-        note.setText (noteEditText.getHtmlText ());
-        note.setTitle (noteEditTitle.getText ());
-        note.setCreatedOn (createdOnDate);
+        note.setText(noteEditText.getHtmlText());
+        note.setTitle(noteEditTitle.getText());
+        note.setCreatedOn(createdOnDate);
 
         if (!editMode) {
-            String noteId = UUID.randomUUID ().toString ();
-            note.setId (noteId);
+            String noteId = UUID.randomUUID().toString();
+            note.setId(noteId);
         }
 
-        if (checkNonUniqueName (note.getTitle ())) {
-            Alert alert = new Alert (Alert.AlertType.WARNING);
-            alert.show ();
+        if (checkNonUniqueName(note.getTitle())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.show();
         } else {
-            add (note);
-            closeEdit ();
+            add(note);
+            closeEdit();
 
             editMode = false;
         }

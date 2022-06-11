@@ -26,7 +26,7 @@ public class NoteController implements Initializable {
     /**
      * Базовый конструктор
      */
-    public NoteController () {
+    public NoteController() {
         instance = this;
     }
 
@@ -35,7 +35,7 @@ public class NoteController implements Initializable {
      *
      * @return Возвращает ссылку на синглтон класса NoteController
      */
-    public static NoteController getInstance () {
+    public static NoteController getInstance() {
         return instance;
     }
 
@@ -56,17 +56,17 @@ public class NoteController implements Initializable {
     private Label noteDate;
 
     @Override
-    public void initialize (URL location, ResourceBundle resources) {
-        Animation.ScaleButtonAnimation (noteDeleteBtn);
-        Animation.ScaleButtonAnimation (noteEditBtn);
-        Animation.CreateTooltip (noteDeleteBtn, "Удалить заметку");
-        Animation.CreateTooltip (noteEditBtn, "Редактировать заметку");
+    public void initialize(URL location, ResourceBundle resources) {
+        Animation.ScaleButtonAnimation(noteDeleteBtn);
+        Animation.ScaleButtonAnimation(noteEditBtn);
+        Animation.CreateTooltip(noteDeleteBtn, "Удалить заметку");
+        Animation.CreateTooltip(noteEditBtn, "Редактировать заметку");
     }
 
     /**
      * Поле формат даты. Используется при формировании даты создания заметки
      */
-    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern ("dd-MM-uuuu HH:mm:ss");
+    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-uuuu HH:mm:ss");
 
     /**
      * Заполняет информацией заметку на главном окне
@@ -74,13 +74,13 @@ public class NoteController implements Initializable {
      * @param note заметка
      * @see Note
      */
-    public void setData (Note note) {
-        noteTitle.setText (note.getTitle ());
-        noteEngine = noteText.getEngine ();
-        noteEngine.loadContent (note.getText ());
-        noteDate.setText (dtf.format (note.getCreatedOn ()));
+    public void setData(Note note) {
+        noteTitle.setText(note.getTitle());
+        noteEngine = noteText.getEngine();
+        noteEngine.loadContent(note.getText());
+        noteDate.setText(dtf.format(note.getCreatedOn()));
 
-        Animation.CreateTooltip (noteDate, dtf.format (note.getCreatedOn ()));
+        Animation.CreateTooltip(noteDate, dtf.format(note.getCreatedOn()));
     }
 
     /**
@@ -89,10 +89,10 @@ public class NoteController implements Initializable {
      * @param mouseEvent
      */
     @FXML
-    public void editNote (MouseEvent mouseEvent) {
-        String noteName = noteTitle.getText ();
+    public void editNote(MouseEvent mouseEvent) {
+        String noteName = noteTitle.getText();
 
-        NoteEditController.getInstance ().edit (noteName);
+        NoteEditController.getInstance().edit(noteName);
     }
 
     /**
@@ -102,9 +102,9 @@ public class NoteController implements Initializable {
      * @throws IOException
      */
     @FXML
-    public void deleteNote (MouseEvent mouseEvent) {
-        String title = noteTitle.getText ();
+    public void deleteNote(MouseEvent mouseEvent) {
+        String title = noteTitle.getText();
 
-        NoteEditController.getInstance ().delete (title);
+        NoteEditController.getInstance().delete(title);
     }
 }

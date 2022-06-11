@@ -9,6 +9,7 @@ import javafx.util.Duration;
 public class Animation {
     /**
      * Создаёт плавную анимацию при наведении на объект
+     *
      * @param control объект
      */
     public static void ScaleButtonAnimation(Node control) {
@@ -31,8 +32,9 @@ public class Animation {
 
     /**
      * Создаёт тултип для объекта
+     *
      * @param control объект
-     * @param text текст тултипа
+     * @param text    текст тултипа
      */
     public static void CreateTooltip(Node control, String text) {
         Tooltip tooltip = new Tooltip(text);
