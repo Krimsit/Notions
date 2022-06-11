@@ -17,16 +17,16 @@ import static java.lang.Integer.parseInt;
 public class NoteApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(NoteApplication.class.getResource("main.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
+
         Scene scene = new Scene(fxmlLoader.load(), 1440, 900);
-        stage.setTitle("Hello!");
+        stage.setTitle("Notes");
         stage.setScene(scene);
 
-        //event listener for width property of the window
         stage.widthProperty().addListener((obs, oldVal, newVal) -> {
-          //NoteController.getInstance().resizeNote(newVal.doubleValue());
             Controller.getInstance().resizeTilePane(newVal.doubleValue());
         });
+
         stage.show();
     }
 
