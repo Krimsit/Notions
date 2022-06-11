@@ -1,6 +1,7 @@
 package com.example.notes;
 
 import javafx.animation.ScaleTransition;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.util.Duration;
@@ -10,7 +11,7 @@ public class Animation {
      * Создаёт плавную анимацию при наведении на объект
      * @param control объект
      */
-    public static void ScaleButtonAnimation(Button control) {
+    public static void ScaleButtonAnimation(Node control) {
         // Анимация при наведении курсора
         ScaleTransition scaleIn = new ScaleTransition(Duration.millis(100), control);
         scaleIn.setByX(1);
@@ -33,12 +34,12 @@ public class Animation {
      * @param control объект
      * @param text текст тултипа
      */
-    public static void CreateTooltip(Button control, String text) {
+    public static void CreateTooltip(Node control, String text) {
         Tooltip tooltip = new Tooltip(text);
 
         // Через сколько покажется тултип
         tooltip.setShowDelay(Duration.millis(100));
 
-        control.setTooltip(tooltip);
+        Tooltip.install(control, tooltip);
     }
 }
