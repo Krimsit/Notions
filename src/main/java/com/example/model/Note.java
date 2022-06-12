@@ -2,6 +2,7 @@ package com.example.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Основная модель данных. Хранит информацию о сущности заметка
@@ -23,6 +24,16 @@ public class Note implements Serializable{
      * Дата создания
      */
     private LocalDateTime createdOn;
+
+    /**
+     * Включено ли напоминание
+     */
+    private boolean  isNotificationOn;
+
+    /**
+     * Дата включения напоминания
+     */
+    private LocalDateTime notificationTime;
 
     /**
      * Get метод
@@ -87,5 +98,29 @@ public class Note implements Serializable{
     public void setId(String id) {
         this.id = id;
     }
+
+    /**
+     * Get метод
+     * @return true если напоминание включено
+     */
+    public boolean getNotificationStatus() {return isNotificationOn;}
+
+    /**
+     * Set метод. Присваивает состояние увеомления
+     * @param notificationStatus
+     */
+    public void setNotificationStatus (Boolean notificationStatus) {this.isNotificationOn = notificationStatus;}
+
+    /**
+     * Get метод. Получает дату запуска уведомления
+     * @return LocalDateTime - дата
+     */
+    public LocalDateTime getNotificationTime(){return notificationTime;}
+
+    /**
+     * Set метод. Присваивает дату уведомления
+     * @param notificationTime LocalDateTime дата
+     */
+    public  void setNotificationTime (LocalDateTime notificationTime) { this.notificationTime = notificationTime;}
 
 }

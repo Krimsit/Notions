@@ -16,6 +16,9 @@ import static java.lang.Integer.parseInt;
  * Является входной точкой в приложение
  */
 public class NoteApplication extends Application {
+
+    public static FXTrayIcon trayIcon;
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
@@ -27,7 +30,7 @@ public class NoteApplication extends Application {
 
 
         // Pass in the app's main stage, and path to the icon image
-        FXTrayIcon trayIcon = new FXTrayIcon(stage);
+        trayIcon = new FXTrayIcon(stage);
         trayIcon.show();
 
 

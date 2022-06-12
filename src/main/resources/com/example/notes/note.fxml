@@ -11,6 +11,6 @@
       <Label fx:id="noteDate" />
       <Region HBox.hgrow="SOMETIMES" />
       <Button fx:id="noteDeleteBtn" styleClass="note-footer-button, delete" stylesheets="@../styles/note.css" onMouseClicked="#deleteNote" />
-      <Button fx:id="noteEditBtn" styleClass="note-footer-button, edit" stylesheets="@../styles/note.css" onMouseClicked="#editNote" />
+      <Button fx:id="noteEditBtn" styleClass="note-footer-button, edit" stylesheets="@../styles/note.css" onMouseClicked="#testNotificationMethod" />
    </HBox>
 </VBox>
