@@ -7,14 +7,12 @@ import static com.example.notes.NoteApplication.trayIcon;
 
 public class NotificationTask implements Runnable{
 
-    ScheduledExecutorService scheduler;
+    private ScheduledExecutorService scheduler;
 
     public NotificationTask (ScheduledExecutorService scheduler){this.scheduler = scheduler;}
 
     @Override
     public void run() {
-        //Stage thisStage = (Stage) Controller.getInstance().notesViewContainer.getScene().getWindow();
-        //FXTrayIcon trayIcon = new FXTrayIcon(thisStage);
 
         if (trayIcon.isSupported()){
             trayIcon.showMessage("Проверка");
