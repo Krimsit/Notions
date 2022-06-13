@@ -11,6 +11,7 @@ import javafx.scene.web.WebView;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.GeneralSecurityException;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
@@ -107,4 +108,13 @@ public class NoteController implements Initializable {
 
         NoteEditController.getInstance().delete(title);
     }
+
+    @FXML
+    public void testMethod(MouseEvent mouseEvent) throws GeneralSecurityException, IOException {
+        GoogleCalendarApi googleCalendarApi = new GoogleCalendarApi();
+        googleCalendarApi.createEvent();
+    }
+
+
+
 }
