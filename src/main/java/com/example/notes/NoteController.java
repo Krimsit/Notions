@@ -12,6 +12,9 @@ import javafx.scene.web.WebView;
 import java.io.IOException;
 import java.net.URL;
 import java.security.GeneralSecurityException;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
@@ -112,7 +115,8 @@ public class NoteController implements Initializable {
     @FXML
     public void testMethod(MouseEvent mouseEvent) throws GeneralSecurityException, IOException {
         GoogleCalendarApi googleCalendarApi = new GoogleCalendarApi();
-        googleCalendarApi.createEvent();
+        googleCalendarApi.addEventToGoogleCalendar(noteTitle.getText(), noteText.toString(), OffsetDateTime.now().plusDays(1),
+                OffsetDateTime.now().plusDays(1), false);
     }
 
 

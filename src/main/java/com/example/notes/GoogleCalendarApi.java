@@ -18,10 +18,13 @@ import com.google.api.services.calendar.model.*;
 
 import java.io.*;
 import java.security.GeneralSecurityException;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static com.example.notes.NoteApplication.trayIcon;
 
 /* class to demonstarte use of Calendar events list API */
 public class GoogleCalendarApi {
@@ -67,37 +70,146 @@ public class GoogleCalendarApi {
         return credential;
     }
 
-    public void createEvent() throws IOException, GeneralSecurityException {
-        // Build a new authorized API client service.
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-                .setApplicationName(APPLICATION_NAME)
-                .build();
+    /**
+     * Производит авторизацию пользователя к Google Calendar API и используя протокол HTTP отправляет запрос на создание мероприятия в Google Calendar
+     * @param title заголовок события
+     * @param description описание события. Может содержть HTML текст
+     * @param startTime начало события в формате OffsetDateTime
+     * @param endTime окончание события в формате OffsetDateTime
+     * @param useDefaultReminder true если использовать напоминание по умолчанию, false если нужно отключить напоминание
+     * @throws IOException
+     * @throws GeneralSecurityException
+     */
+    public void addEventToGoogleCalendar(String title, String description, OffsetDateTime startTime, OffsetDateTime endTime, Boolean useDefaultReminder) throws IOException, GeneralSecurityException {
+
+
+        try {
+            // Build a new authorized API client service.
+            final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+            Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+                    .setApplicationName(APPLICATION_NAME)
+                    .build();
 
 
 
-        Event event = new Event()
-                .setSummary("Я создался из проекта по ПнП 😎");
+            Event event = new Event().setSummary(title);
+
+            event.setDescription(description);
 
 
-        DateTime startDateTime = new DateTime(String.valueOf(LocalDateTime.now()));
-        EventDateTime start = new EventDateTime()
-                .setDateTime(startDateTime);
-        event.setStart(start);
-
-        event.setDescription("<html dir=\"ltr\"><head></head><body contenteditable=\"true\"><p style=\"text-align: left;\"><span style=\"font-family: &quot;&quot;;\">Привет. Я </span><span style=\"font-family: Algerian;\">создан из </span><span style=\"font-family: &quot;Bauhaus 93&quot;;\">проекта <span style=\"font-size: -webkit-xxx-large;\">ПнП&nbsp;</span></span></p><p style=\"text-align: left;\"><span class=\"Apple-tab-span\" style=\"white-space: pre;\"><span style=\"font-size: large;\"><span style=\"font-family: &quot;Bauhaus 93&quot;;\">\tИ поддерживаю </span><span style=\"font-family: &quot;Courier New&quot;;\">HTML формат.</span></span></span></p><p style=\"text-align: left;\"><span class=\"Apple-tab-span\" style=\"white-space: pre;\"><span style=\"font-family: &quot;Bauhaus 93&quot;; font-size: -webkit-xxx-large;\">Смотри </span><span style=\"font-family: &quot;Bauhaus 93&quot;; font-size: x-large; font-style: italic; font-weight: bold; text-decoration: underline line-through;\">какой я крутой&nbsp;</span></span></p><p style=\"text-align: left;\"><span class=\"Apple-tab-span\" style=\"white-space: pre;\"><span style=\"font-family: &quot;Bauhaus 93&quot;; font-size: x-large; font-style: italic; font-weight: bold; text-decoration: underline line-through;\"><br></span></span></p><p style=\"text-align: left;\"></p><ol><li><span style=\"font-family: &quot;Courier New&quot;; font-size: x-large; white-space: pre;\">Кр</span></li><li><span style=\"font-family: &quot;Courier New&quot;; font-size: x-large; white-space: pre;\">Ут</span></li><li><span style=\"font-family: &quot;Courier New&quot;; font-size: x-large; white-space: pre;\">Ой</span></li></ol><div style=\"text-align: center;\"></div><p></p><p></p><p></p><hr style=\"text-align: center;\"><p></p><p></p></body></html>");
-
-        DateTime endDateTime = new DateTime(String.valueOf(LocalDateTime.now()));
-        EventDateTime end = new EventDateTime()
-                .setDateTime(endDateTime);
-        event.setEnd(end);
+            DateTime startDateTime = new DateTime(String.valueOf(startTime));
+            EventDateTime start = new EventDateTime().setDateTime(startDateTime);
+            event.setStart(start);
 
 
+            DateTime endDateTime = new DateTime(String.valueOf(endTime));
+            EventDateTime end = new EventDateTime().setDateTime(endDateTime);
+            event.setEnd(end);
 
-        String calendarId = "primary";
-        event = service.events().insert(calendarId, event).execute();
-        System.out.printf("Event created: %s\n", event.getHtmlLink());
 
+            if(!useDefaultReminder) {
+                Event.Reminders reminders = new Event.Reminders();
+                reminders.setUseDefault(false);
+                event.setReminders(reminders);
+            }
+
+            String calendarId = "primary";
+
+            event = service.events().insert(calendarId, event).execute();
+            System.out.printf("Event created: %s\n", event.getHtmlLink());
+
+            trayIcon.showMessage("Событие успешно добавлено в ваш календарь");
+
+
+
+        } catch (RuntimeException ex){
+            trayIcon.showErrorMessage("Ошибка!", "Событие не добавлено в ваш календарь. Проверьте логи");
+        }
 
     }
+
+    /**
+     * Производит авторизацию пользователя к Google Calendar API и используя протокол HTTP отправляет запрос на создание мероприятия в Google Calendar
+     * @param title заголовок события
+     * @param description описание события. Может содержть HTML текст
+     * @param startTime начало события в формате OffsetDateTime
+     * @param endTime окончание события в формате OffsetDateTime
+     * @param reminderType формат напоминания. 0 - уведомление, 1 - письмо на почту
+     * @param reminderTime количество минут до начала события, когда должно сработать напоминание.
+     *                     Допустимые значения от 0 до 40320 (4 недели)
+     * @throws IOException
+     * @throws GeneralSecurityException
+     */
+    public void addEventToGoogleCalendar(String title, String description, OffsetDateTime startTime, OffsetDateTime endTime,
+                                         int reminderType, int reminderTime) throws IOException, GeneralSecurityException {
+
+
+        try {
+            // Build a new authorized API client service.
+            final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+            Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+                    .setApplicationName(APPLICATION_NAME)
+                    .build();
+
+
+            Event event = new Event().setSummary(title);
+
+            event.setDescription(description);
+
+
+            DateTime startDateTime = new DateTime(String.valueOf(startTime));
+                        EventDateTime start = new EventDateTime()
+                    .setDateTime(startDateTime)
+                    .setTimeZone("Europe/Moscow");
+            event.setStart(start);
+
+
+            DateTime endDateTime = new DateTime(String.valueOf(endTime));
+            EventDateTime end = new EventDateTime()
+                    .setDateTime(endDateTime)
+                    .setTimeZone("Europe/Moscow");
+            event.setEnd(end);
+
+            Event.Reminders temp = event.getReminders();
+
+            Event.Reminders reminders = new Event.Reminders();
+            EventReminder eventReminder = new EventReminder();
+            List<EventReminder> eventReminderList= new ArrayList<EventReminder>();
+
+            reminders.setUseDefault(false);
+
+            switch (reminderType){
+                case 0:
+                    eventReminder.setMethod("popup");
+                    eventReminder.setMinutes(reminderTime);
+                    break;
+                case 1:
+                    eventReminder.setMethod("email");
+                    eventReminder.setMinutes(reminderTime);
+                    break;
+
+            }
+            eventReminderList.add(eventReminder);
+            reminders.setOverrides(eventReminderList);
+            event.setReminders(reminders);
+
+
+            String calendarId = "primary";
+
+            event = service.events().insert(calendarId, event).execute();
+            System.out.printf("Event created: %s\n", event.getHtmlLink());
+
+            trayIcon.showMessage("Событие успешно добавлено в ваш календарь", "");
+
+
+
+        } catch (RuntimeException ex){
+            trayIcon.showErrorMessage("Ошибка!", "Событие не добавлено в ваш календарь. Проверьте логи");
+        }
+
+    }
+
+
+
+
 }
