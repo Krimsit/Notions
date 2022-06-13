@@ -16,12 +16,12 @@
          <HBox styleClass="main-sidebar-menu" stylesheets="@../styles/main.css">
             <Button fx:id="noteAddTextNote" styleClass="main-sidebar-menu-button, textNote" stylesheets="@../styles/main.css" onMouseClicked="#addNote" />
          </HBox>
-         <TreeView fx:id="treeView" styleClass="main-sidebar-tree" VBox.vgrow="ALWAYS" stylesheets="@../styles/main.css" />
+         <TreeView fx:id="treeView" styleClass="main-sidebar-tree" VBox.vgrow="SOMETIMES" stylesheets="@../styles/main.css" />
       </VBox>
    </left>
    <center>
       <VBox fx:id="notesViewContainer">
-         <ScrollPane VBox.vgrow="ALWAYS" fitToWidth="true">
+         <ScrollPane VBox.vgrow="SOMETIMES" fitToWidth="true">
             <TilePane styleClass="main-notes" stylesheets="@../styles/main.css" fx:id="tilePane" hgap="20.0" vgap="20.0">
                <opaqueInsets>
                   <Insets />
