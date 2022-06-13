@@ -4,20 +4,18 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.web.HTMLEditor?>
 
-<VBox fx:id="noteEditContainer" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.notes.NoteEditController">
-   <children>
-      <TextField fx:id="noteEditTitle">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </TextField>
-      <HTMLEditor fx:id="noteEditText" htmlText="&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body contenteditable=&quot;true&quot;&gt;&lt;/body&gt;&lt;/html&gt;" VBox.vgrow="ALWAYS" />
-      <HBox alignment="CENTER_RIGHT">
-         <Button fx:id="noteEditSaveBtn" mnemonicParsing="false" onMouseClicked="#saveNote" text="Сохранить" />
-         <Button fx:id="noteEditCancelBtn" mnemonicParsing="false" onMouseClicked="#exitFromEditMote" text="Выйти" />
-      </HBox>
-   </children>
+<?import javafx.scene.control.Label?>
+<VBox styleClass="noteEdit" stylesheets="@../styles/noteEdit.css" fx:id="noteEditContainer" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.notes.NoteEditController">
+   <HBox styleClass="noteEdit-title" stylesheets="@../styles/noteEdit.css">
+      <Label styleClass="noteEdit-title-label" stylesheets="@../styles/noteEdit.css">Название: </Label>
+      <TextField fx:id="noteEditTitle" styleClass="noteEdit-title-input" stylesheets="@../styles/noteEdit.css" HBox.hgrow="SOMETIMES" />
+   </HBox>
+   <HTMLEditor fx:id="noteEditText" styleClass="noteEdit-editor" stylesheets="@../styles/noteEdit.css" />
+   <HBox alignment="CENTER_RIGHT" styleClass="noteEdit-footer" stylesheets="@../styles/noteEdit.css">
+      <Button fx:id="noteEditDeleteBtn" styleClass="noteEdit-footer-button, delete" stylesheets="@../styles/noteEdit.css" mnemonicParsing="false" onMouseClicked="#deleteNote" text="Удалить" />
+      <Button fx:id="noteEditSaveBtn" styleClass="noteEdit-footer-button, save" stylesheets="@../styles/noteEdit.css" mnemonicParsing="false" onMouseClicked="#saveNote" text="Сохранить" />
+      <Button fx:id="noteEditExitBtn" styleClass="noteEdit-footer-button, exit" stylesheets="@../styles/noteEdit.css" mnemonicParsing="false" onMouseClicked="#exitFromEditMote" text="Выйти" />
+   </HBox>
 </VBox>
