@@ -16,8 +16,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
+import java.security.GeneralSecurityException;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
@@ -116,6 +119,13 @@ public class NoteController implements Initializable {
     }
 
     @FXML
+    public void testMethod(MouseEvent mouseEvent) throws GeneralSecurityException, IOException {
+        GoogleCalendarApi googleCalendarApi = new GoogleCalendarApi();
+        googleCalendarApi.addEventToGoogleCalendar(noteTitle.getText(), noteText.toString(), OffsetDateTime.now().plusDays(1),
+                OffsetDateTime.now().plusDays(1), false);
+    }
+  
+    @FXML
     public void enableNotificationNote(MouseEvent mouseEvent) {
         VBox vbox = new VBox(20);
         Scene scene = new Scene(vbox, 400, 400);
@@ -145,8 +155,8 @@ public class NoteController implements Initializable {
         vbox.getChildren().add(dp);
 
         //Не работает. Кидает Exception
-//        vbox.getChildren().add(new Label("Время:"));
-//        vbox.getChildren().add(timePicker);
+        //vbox.getChildren().add(new Label("Время:"));
+        //vbox.getChildren().add(timePicker);
 
         stage.show();
 
@@ -160,7 +170,4 @@ public class NoteController implements Initializable {
         notification.scheduleNotification();
 
     }
-
-
-
 }

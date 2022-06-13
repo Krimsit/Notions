@@ -31,7 +31,8 @@ public class NoteApplication extends Application {
 
         // Pass in the app's main stage, and path to the icon image
         trayIcon = new FXTrayIcon(stage);
-        trayIcon.show();
+        trayIcon.setApplicationTitle("Notions");
+
 
 
 
