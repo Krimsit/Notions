@@ -19,6 +19,7 @@ module com.example.notes {
     requires com.google.api.client.extensions.java6.auth;
 
     requires jdk.httpserver;
+    requires com.jfoenix;
 
     opens com.example.notes to javafx.fxml;
     exports com.example.notes;
