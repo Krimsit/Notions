@@ -5,28 +5,28 @@ import java.util.concurrent.TimeUnit;
 
 import static com.example.notes.NoteApplication.trayIcon;
 
-public class NotificationTask implements Runnable{
+public class NotificationTask implements Runnable {
 
     private ScheduledExecutorService scheduler;
 
-    public NotificationTask (ScheduledExecutorService scheduler){this.scheduler = scheduler;}
+    public NotificationTask(ScheduledExecutorService scheduler) {
+        this.scheduler = scheduler;
+    }
 
     @Override
     public void run() {
-
-        if (trayIcon.isSupported()){
+        if (trayIcon.isSupported()) {
             trayIcon.showMessage("Проверка");
 
             terminateScheduledThread();
-         }
-
-
+        }
     }
 
 
-    public void terminateScheduledThread(){
+    public void terminateScheduledThread() {
         scheduler.shutdown(); // Disable new tasks from being submitted
         System.out.println("Thread closed");
+
         try {
             // Wait a while for existing tasks to terminate
             if (!scheduler.awaitTermination(60, TimeUnit.SECONDS)) {

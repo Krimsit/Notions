@@ -277,7 +277,7 @@ public class Controller implements Initializable {
         if (noteName != null) {
             List<Note> notes = new ArrayList<Note>(getAllNotes());
 
-          for (Note note : notes) {
+            for (Note note : notes) {
                 if (note.getTitle().equals(noteName)) {
                     return note;
                 }
@@ -339,15 +339,11 @@ public class Controller implements Initializable {
         NoteEditController.getInstance().edit(null);
     }
 
-
-    public void getAllNotesWithNotificationOn (List<Note> notes){
-
+    public void getAllNotesWithNotificationOn(List<Note> notes) {
         notes.forEach((Note note) -> {
-            if (note.getNotificationStatus()){
+            if (note.getNotificationStatus()) {
                 notificationNotes.add(note);
             }
         });
     }
-
-
 }

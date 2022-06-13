@@ -34,8 +34,6 @@ public class NoteApplication extends Application {
         trayIcon.setApplicationTitle("Notions");
 
 
-
-
 //        // We can also nest menus, below is an Options menu with sub-items
 //        Menu menuOptions = new Menu("Options");
 //        MenuItem miOn        = new MenuItem("On");

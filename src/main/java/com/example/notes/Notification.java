@@ -13,11 +13,11 @@ public class Notification {
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
 
-    public Notification(LocalDateTime notificationDate){this.notificationDate = notificationDate;}
+    public Notification(LocalDateTime notificationDate) {
+        this.notificationDate = notificationDate;
+    }
 
-    public void scheduleNotification(){
-
-
+    public void scheduleNotification() {
         now = LocalDateTime.now();
 
         notificationDate = notificationDate.plusSeconds(10);
@@ -28,12 +28,5 @@ public class Notification {
 
         scheduler.schedule(new NotificationTask(scheduler), initialDelay, SECONDS);
         System.out.println("Thread started");
-
-
-
     }
-
-
-
-
 }

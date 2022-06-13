@@ -28,11 +28,17 @@ import static com.example.notes.NoteApplication.trayIcon;
 
 /* class to demonstarte use of Calendar events list API */
 public class GoogleCalendarApi {
-    /** Application name. */
+    /**
+     * Application name.
+     */
     private static final String APPLICATION_NAME = "Notions App";
-    /** Global instance of the JSON factory. */
+    /**
+     * Global instance of the JSON factory.
+     */
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-    /** Directory to store authorization tokens for this application. */
+    /**
+     * Directory to store authorization tokens for this application.
+     */
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
     /**
@@ -46,6 +52,7 @@ public class GoogleCalendarApi {
 
     /**
      * Creates an authorized Credential object.
+     *
      * @param HTTP_TRANSPORT The network HTTP Transport.
      * @return An authorized Credential object.
      * @throws IOException If the credentials.json file cannot be found.
@@ -72,10 +79,11 @@ public class GoogleCalendarApi {
 
     /**
      * Производит авторизацию пользователя к Google Calendar API и используя протокол HTTP отправляет запрос на создание мероприятия в Google Calendar
-     * @param title заголовок события
-     * @param description описание события. Может содержть HTML текст
-     * @param startTime начало события в формате OffsetDateTime
-     * @param endTime окончание события в формате OffsetDateTime
+     *
+     * @param title              заголовок события
+     * @param description        описание события. Может содержть HTML текст
+     * @param startTime          начало события в формате OffsetDateTime
+     * @param endTime            окончание события в формате OffsetDateTime
      * @param useDefaultReminder true если использовать напоминание по умолчанию, false если нужно отключить напоминание
      * @throws IOException
      * @throws GeneralSecurityException
@@ -89,7 +97,6 @@ public class GoogleCalendarApi {
             Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                     .setApplicationName(APPLICATION_NAME)
                     .build();
-
 
 
             Event event = new Event().setSummary(title);
@@ -107,7 +114,7 @@ public class GoogleCalendarApi {
             event.setEnd(end);
 
 
-            if(!useDefaultReminder) {
+            if (!useDefaultReminder) {
                 Event.Reminders reminders = new Event.Reminders();
                 reminders.setUseDefault(false);
                 event.setReminders(reminders);
@@ -121,8 +128,7 @@ public class GoogleCalendarApi {
             trayIcon.showMessage("Событие успешно добавлено в ваш календарь");
 
 
-
-        } catch (RuntimeException ex){
+        } catch (RuntimeException ex) {
             trayIcon.showErrorMessage("Ошибка!", "Событие не добавлено в ваш календарь. Проверьте логи");
         }
 
@@ -130,10 +136,11 @@ public class GoogleCalendarApi {
 
     /**
      * Производит авторизацию пользователя к Google Calendar API и используя протокол HTTP отправляет запрос на создание мероприятия в Google Calendar
-     * @param title заголовок события
-     * @param description описание события. Может содержть HTML текст
-     * @param startTime начало события в формате OffsetDateTime
-     * @param endTime окончание события в формате OffsetDateTime
+     *
+     * @param title        заголовок события
+     * @param description  описание события. Может содержть HTML текст
+     * @param startTime    начало события в формате OffsetDateTime
+     * @param endTime      окончание события в формате OffsetDateTime
      * @param reminderType формат напоминания. 0 - уведомление, 1 - письмо на почту
      * @param reminderTime количество минут до начала события, когда должно сработать напоминание.
      *                     Допустимые значения от 0 до 40320 (4 недели)
@@ -158,7 +165,7 @@ public class GoogleCalendarApi {
 
 
             DateTime startDateTime = new DateTime(String.valueOf(startTime));
-                        EventDateTime start = new EventDateTime()
+            EventDateTime start = new EventDateTime()
                     .setDateTime(startDateTime)
                     .setTimeZone("Europe/Moscow");
             event.setStart(start);
@@ -174,11 +181,11 @@ public class GoogleCalendarApi {
 
             Event.Reminders reminders = new Event.Reminders();
             EventReminder eventReminder = new EventReminder();
-            List<EventReminder> eventReminderList= new ArrayList<EventReminder>();
+            List<EventReminder> eventReminderList = new ArrayList<EventReminder>();
 
             reminders.setUseDefault(false);
 
-            switch (reminderType){
+            switch (reminderType) {
                 case 0:
                     eventReminder.setMethod("popup");
                     eventReminder.setMinutes(reminderTime);
@@ -202,14 +209,11 @@ public class GoogleCalendarApi {
             trayIcon.showMessage("Событие успешно добавлено в ваш календарь", "");
 
 
-
-        } catch (RuntimeException ex){
+        } catch (RuntimeException ex) {
             trayIcon.showErrorMessage("Ошибка!", "Событие не добавлено в ваш календарь. Проверьте логи");
         }
 
     }
-
-
 
 
 }

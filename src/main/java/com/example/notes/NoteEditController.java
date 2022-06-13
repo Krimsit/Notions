@@ -2,24 +2,28 @@ package com.example.notes;
 
 import com.example.model.Note;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.HTMLEditor;
 
 import java.io.*;
+import java.net.URL;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.ResourceBundle;
 import java.util.UUID;
 
 
 /**
  * Контроллер редактирования заметки, реализующий логику наполнения и изменения заметки
  */
-public class NoteEditController {
+public class NoteEditController implements Initializable {
     /**
      * Синглтон класса NoteEditController
      */
@@ -48,8 +52,23 @@ public class NoteEditController {
     private TextField noteEditTitle;
     @FXML
     private HTMLEditor noteEditText;
+    @FXML
+    private Button noteEditDeleteBtn;
+    @FXML
+    private Button noteEditSaveBtn;
+    @FXML
+    private Button noteEditExitBtn;
 
     private static boolean editMode = false;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        noteEditDeleteBtn.setVisible(false);
+
+        Animation.ScaleButtonAnimation(noteEditDeleteBtn);
+        Animation.ScaleButtonAnimation(noteEditSaveBtn);
+        Animation.ScaleButtonAnimation(noteEditExitBtn);
+    }
 
     /**
      * Скрывает режим редактирования заметки
@@ -102,9 +121,13 @@ public class NoteEditController {
      * @param noteFileName заголовок заметки по которому происходит поиск
      */
     public void edit(String noteFileName) {
-        Note note = noteFileName != null ? Controller.getInstance().findNote(noteFileName) : new Note();
+        Note note = new Note();
 
-        editMode = noteFileName != null ? true : false;
+        if (noteFileName != null) {
+            note = Controller.getInstance().findNote(noteFileName);
+            editMode = true;
+            noteEditDeleteBtn.setVisible(true);
+        }
 
         noteEditTitle.setText(note.getTitle());
         noteEditText.setHtmlText(note.getText());
@@ -187,5 +210,15 @@ public class NoteEditController {
 
             editMode = false;
         }
+    }
+
+    /**
+     * Вызывается при нажатии на кнопку удаления заметки
+     */
+    @FXML
+    private void deleteNote() {
+        String noteTitle = noteEditTitle.getText();
+
+        delete(noteTitle);
     }
 }

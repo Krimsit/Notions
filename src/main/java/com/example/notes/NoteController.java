@@ -124,7 +124,7 @@ public class NoteController implements Initializable {
         googleCalendarApi.addEventToGoogleCalendar(noteTitle.getText(), noteText.toString(), OffsetDateTime.now().plusDays(1),
                 OffsetDateTime.now().plusDays(1), false);
     }
-  
+
     @FXML
     public void enableNotificationNote(MouseEvent mouseEvent) {
         VBox vbox = new VBox(20);
@@ -146,7 +146,7 @@ public class NoteController implements Initializable {
                 super.updateItem(date, empty);
                 LocalDate today = LocalDate.now();
 
-                setDisable(empty || date.compareTo(today) < 0 );
+                setDisable(empty || date.compareTo(today) < 0);
             }
         });
 
