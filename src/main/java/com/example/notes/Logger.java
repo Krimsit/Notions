@@ -25,8 +25,6 @@ public class Logger {
             fileWriter = new FileWriter(log);
 
             if (fileWriter != null) {
-                fileWriter.write(ex.toString());
-
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);
                 ex.printStackTrace(pw);
