@@ -42,6 +42,7 @@ public class NotificationTask implements Runnable {
             // Preserve interrupt status
             Thread.currentThread().interrupt();
             System.out.println("Thread interrupted");
+            Logger.writeException(ie);
         }
     }
 }

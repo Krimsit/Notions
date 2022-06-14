@@ -150,10 +150,13 @@ public class NoteEditController implements Initializable {
         } catch (NoSuchFileException e) {
             System.out.println(
                     "No such file/directory exists");
+            Logger.writeException(e);
         } catch (DirectoryNotEmptyException e) {
             System.out.println("Directory is not empty.");
+            Logger.writeException(e);
         } catch (IOException e) {
             System.out.println("Invalid permissions.");
+            Logger.writeException(e);
         }
 
         Controller.getInstance().updateViewedNotes();
