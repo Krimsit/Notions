@@ -26,7 +26,6 @@ public class Logger {
 
             if (fileWriter != null) {
                 fileWriter.write(ex.toString());
-                fileWriter.write("\n");
 
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);
