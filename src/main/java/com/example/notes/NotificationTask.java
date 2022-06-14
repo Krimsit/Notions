@@ -5,6 +5,10 @@ import java.util.concurrent.TimeUnit;
 
 import static com.example.notes.NoteApplication.trayIcon;
 
+
+/**
+ * Класс который вызывается на фоновом потоке и непосредственно вызывает отложенное уведомление
+ */
 public class NotificationTask implements Runnable {
 
     private ScheduledExecutorService scheduler;

@@ -5,9 +5,19 @@ import java.time.*;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+/**
+ * Отвечает за создание отложенных уведомелний
+ */
 public class Notification {
 
+    /**
+     * Дата и время вызова уведомлений
+     */
     private LocalDateTime notificationDate;
+
+    /**
+     * Текущая дата и время
+     */
     private LocalDateTime now;
 
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
@@ -17,6 +27,10 @@ public class Notification {
         this.notificationDate = notificationDate;
     }
 
+
+    /**
+     * Создает фоновый поток, на котором запускается отложенный вызов уведомления
+     */
     public void scheduleNotification() {
         now = LocalDateTime.now();
 

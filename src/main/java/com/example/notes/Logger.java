@@ -4,14 +4,24 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+
+/**
+ * Вспомогательный класс, отвечающий за логирование ошибок на компьютер
+ */
 public class Logger {
 
 
-
+    /**
+     * Метод записывает Exception StackTrace на компьютер пользователя
+     * @param ex
+     */
     public static void writeException(Exception ex){
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.uu-HH.mm.ss");
 
+        /**
+         * Директрория хранения логов. По умолчанию logs/
+         */
         File logDirectory = new File("logs/");
 
         if (!logDirectory.exists())

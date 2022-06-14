@@ -36,9 +36,6 @@ public class NoteApplication extends Application {
         trayIcon.setApplicationTitle("Notes");
         trayIcon.show();
 
-        System.out.println(getClass().getResource("/com/example/img/icon.png"));
-
-
 
 //        // We can also nest menus, below is an Options menu with sub-items
 //        Menu menuOptions = new Menu("Options");
