@@ -130,7 +130,7 @@ public class GoogleCalendarApi {
 
         } catch (RuntimeException ex) {
             trayIcon.showErrorMessage("Ошибка!", "Событие не добавлено в ваш календарь. Проверьте логи");
-            Logger.writeException(ex);
+            Helper.writeException(ex);
         }
 
     }

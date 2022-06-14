@@ -4,14 +4,27 @@ import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import java.io.*;
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.io.File;
 
 
 /**
- * Вспомогательный класс, отвечающий за логирование ошибок на компьютер
+ * Вспомогательный класс хелпер
  */
-public class Logger {
+public class Helper {
+
+
+    /**
+     * Перечисление. ERROR - ошибка. NOTIFICATION - уведомление. EVENT - событие.
+     */
+    public enum SoundType {
+        ERROR, NOTIFICATION, EVENT
+    }
+
 
 
     /**
@@ -67,15 +80,53 @@ public class Logger {
      * @param messageError текст ошибки
      */
     public static void showAlertMessage(String messageError){
+        playSound(SoundType.ERROR);
+
         Alert alert = new Alert(Alert.AlertType.ERROR);
 
         alert.setTitle("Ошибка!");
         alert.setContentText(messageError + "\nПроверьте логи");
         alert.setHeaderText("Внимание!");
 
-        ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image((Logger.class.getResource("/com/example/img/icon.png")).toString()));
+        ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image((Helper.class.getResource("/com/example/img/icon.png")).toString()));
 
         alert.show();
+
+    }
+
+    /**
+     * Запускает звук
+     * @param soundType тип звука
+     */
+    public static void playSound(SoundType soundType) {
+
+        switch (soundType){
+
+            case ERROR:
+                String errorSound = "Error.wav";
+                Media errorMedia = new Media(Helper.class.getResource("/com/example/sounds/"+errorSound).toExternalForm());
+                MediaPlayer errorMediaPlayer = new MediaPlayer(errorMedia);
+                errorMediaPlayer.play();
+                break;
+
+            case NOTIFICATION:
+                String notificationSound = "Notification.wav";
+
+                Media notificationMedia = new Media(Helper.class.getResource("/com/example/sounds/"+notificationSound).toExternalForm());
+                MediaPlayer notificationMediaPlayer = new MediaPlayer(notificationMedia);
+                notificationMediaPlayer.play();
+                break;
+
+            case EVENT:
+                String eventSound = "Event.wav";
+
+                Media eventMedia = new Media(Helper.class.getResource("/com/example/sounds/"+eventSound).toExternalForm());
+                MediaPlayer eventMediaPlayer = new MediaPlayer(eventMedia);
+                eventMediaPlayer.play();
+                break;
+
+        }
+
 
     }
 

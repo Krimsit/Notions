@@ -102,17 +102,17 @@ public class NoteEditController implements Initializable {
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            Logger.writeException(e);
+            Helper.writeException(e);
         } catch (IOException e) {
             e.printStackTrace();
-            Logger.writeException(e);
+            Helper.writeException(e);
         } finally {
             if (objectOutputStream != null) {
                 try {
                     objectOutputStream.close();
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Logger.writeException(e);
+                    Helper.writeException(e);
                 }
             }
         }
@@ -153,13 +153,13 @@ public class NoteEditController implements Initializable {
         } catch (NoSuchFileException e) {
             System.out.println(
                     "No such file/directory exists");
-            Logger.writeException(e);
+            Helper.writeException(e);
         } catch (DirectoryNotEmptyException e) {
             System.out.println("Directory is not empty.");
-            Logger.writeException(e);
+            Helper.writeException(e);
         } catch (IOException e) {
             System.out.println("Invalid permissions.");
-            Logger.writeException(e);
+            Helper.writeException(e);
         }
 
         Controller.getInstance().updateViewedNotes();

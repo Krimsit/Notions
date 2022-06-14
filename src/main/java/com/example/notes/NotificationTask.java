@@ -21,6 +21,7 @@ public class NotificationTask implements Runnable {
     public void run() {
         if (trayIcon.isSupported()) {
             trayIcon.showMessage("Проверка");
+            Helper.playSound(Helper.SoundType.NOTIFICATION);
 
             terminateScheduledThread();
         }
@@ -46,7 +47,7 @@ public class NotificationTask implements Runnable {
             // Preserve interrupt status
             Thread.currentThread().interrupt();
             System.out.println("Thread interrupted");
-            Logger.writeException(ie);
+            Helper.writeException(ie);
         }
     }
 }

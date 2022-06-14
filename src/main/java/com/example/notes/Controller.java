@@ -128,7 +128,7 @@ public class Controller implements Initializable {
                 });
             } catch (Exception e) {
                 e.printStackTrace();
-                Logger.writeException(e);
+                Helper.writeException(e);
             }
         }
     }
@@ -154,7 +154,7 @@ public class Controller implements Initializable {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Logger.writeException(e);
+            Helper.writeException(e);
         }
     }
 
@@ -183,20 +183,20 @@ public class Controller implements Initializable {
                     }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
-                    Logger.writeException(e);
+                    Helper.writeException(e);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Logger.writeException(e);
+                    Helper.writeException(e);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
-                    Logger.writeException(e);
+                    Helper.writeException(e);
                 } finally {
                     if (objectInputStream != null) {
                         try {
                             objectInputStream.close();
                         } catch (IOException e) {
                             e.printStackTrace();
-                            Logger.writeException(e);
+                            Helper.writeException(e);
                         }
                     }
                 }
