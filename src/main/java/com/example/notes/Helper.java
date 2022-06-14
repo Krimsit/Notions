@@ -19,7 +19,7 @@ public class Helper {
 
 
     /**
-     * Перечисление. ERROR - ошибка. NOTIFICATION - уведомление. EVENT - событие.
+     * Перечисление категории звуков. ERROR - ошибка. NOTIFICATION - уведомление. EVENT - событие.
      */
     public enum SoundType {
         ERROR, NOTIFICATION, EVENT
@@ -85,7 +85,7 @@ public class Helper {
         Alert alert = new Alert(Alert.AlertType.ERROR);
 
         alert.setTitle("Ошибка!");
-        alert.setContentText(messageError + "\nПроверьте логи");
+        alert.setContentText(messageError + "\nПроверьте журнал ошибок в папке logs");
         alert.setHeaderText("Внимание!");
 
         ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image((Helper.class.getResource("/com/example/img/icon.png")).toString()));
