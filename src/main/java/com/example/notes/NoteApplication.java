@@ -4,6 +4,7 @@ import com.example.model.Note;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import com.dustinredmond.fxtrayicon.FXTrayIcon;
 
@@ -25,13 +26,18 @@ public class NoteApplication extends Application {
 
         Scene scene = new Scene(fxmlLoader.load(), 1440, 900);
 
-        stage.setTitle("Notions");
+        stage.setTitle("Notes");
         stage.setScene(scene);
+        stage.getIcons().add(new Image((getClass().getResource("/com/example/img/icon.png")).toString()));
 
 
         // Pass in the app's main stage, and path to the icon image
-        trayIcon = new FXTrayIcon(stage);
-        trayIcon.setApplicationTitle("Notions");
+        trayIcon = new FXTrayIcon(stage, getClass().getResource("/com/example/img/icon.png"));
+        trayIcon.setApplicationTitle("Notes");
+        trayIcon.show();
+
+        System.out.println(getClass().getResource("/com/example/img/icon.png"));
+
 
 
 //        // We can also nest menus, below is an Options menu with sub-items
