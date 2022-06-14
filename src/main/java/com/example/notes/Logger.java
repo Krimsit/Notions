@@ -1,5 +1,8 @@
 package com.example.notes;
 
+import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -42,6 +45,7 @@ public class Logger {
                 fileWriter.write(sStackTrace);
 
             }
+            showAlertMessage(ex.toString());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -55,6 +59,23 @@ public class Logger {
                 }
             }
         }
+
+    }
+
+    /**
+     * Вызывет сообщение об ошибке
+     * @param messageError текст ошибки
+     */
+    public static void showAlertMessage(String messageError){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+
+        alert.setTitle("Ошибка!");
+        alert.setContentText(messageError + "\nПроверьте логи");
+        alert.setHeaderText("Внимание!");
+
+        ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image((Logger.class.getResource("/com/example/img/icon.png")).toString()));
+
+        alert.show();
 
     }
 
