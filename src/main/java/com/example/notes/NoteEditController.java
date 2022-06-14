@@ -102,14 +102,17 @@ public class NoteEditController implements Initializable {
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            Logger.writeException(e);
         } catch (IOException e) {
             e.printStackTrace();
+            Logger.writeException(e);
         } finally {
             if (objectOutputStream != null) {
                 try {
                     objectOutputStream.close();
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Logger.writeException(e);
                 }
             }
         }
