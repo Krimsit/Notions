@@ -113,6 +113,7 @@ public class NoteEditController implements Initializable {
                 if (fileOutputStream != null) {
                     objectOutputStream = new ObjectOutputStream(fileOutputStream);
                     objectOutputStream.writeObject(note);
+                    fileOutputStream.close();
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

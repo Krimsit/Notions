@@ -169,7 +169,7 @@ public class Controller implements Initializable {
                     if (fileInputStream != null) {
                         objectInputStream = new ObjectInputStream(fileInputStream);
                         Note note = (Note) objectInputStream.readObject();
-
+                        fileInputStream.close();
                         notes.add(note);
                     }
                 } catch (FileNotFoundException e) {
