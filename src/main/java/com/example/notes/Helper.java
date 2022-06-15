@@ -58,7 +58,10 @@ public class Helper {
                 fileWriter.write(sStackTrace);
 
             }
-            showAlertMessage(ex.toString());
+            String messageTitle = "Ошибка!";
+            String messageHeader = "Внимание";
+            String messageDescription = ex.toString() + "\nПроверьте журнал ошибок в папке logs";
+            showModalMessage(messageTitle, messageHeader, messageDescription, Alert.AlertType.ERROR, SoundType.ERROR);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -76,17 +79,22 @@ public class Helper {
     }
 
     /**
-     * Вызывет сообщение об ошибке
-     * @param messageError текст ошибки
+     * Вызывает модальное уведомление
+     * @param messageTitle название модального окна
+     * @param messageHeader заголовок уведомления
+     * @param messageDescription описание
+     * @param alertType тип модального окна Alert.AlertType
+     * @param soundType тип воспроизводимого звука SoundType
      */
-    public static void showAlertMessage(String messageError){
-        playSound(SoundType.ERROR);
+    public static void showModalMessage(String messageTitle, String messageHeader, String messageDescription, Alert.AlertType alertType, SoundType soundType){
 
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        Alert alert = new Alert(alertType);
 
-        alert.setTitle("Ошибка!");
-        alert.setContentText(messageError + "\nПроверьте журнал ошибок в папке logs");
-        alert.setHeaderText("Внимание!");
+        playSound(soundType);
+
+        alert.setTitle(messageTitle);
+        alert.setHeaderText(messageHeader);
+        alert.setContentText(messageDescription);
 
         ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image((Helper.class.getResource("/com/example/img/icon.png")).toString()));
 
