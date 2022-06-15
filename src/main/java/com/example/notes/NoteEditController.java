@@ -60,6 +60,7 @@ public class NoteEditController implements Initializable {
     @FXML
     public VBox notificationSettingsContainer;
 
+    /*
     {
         try {
             notificationSettingsContainer = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("notificationSettings.fxml")));
@@ -67,6 +68,7 @@ public class NoteEditController implements Initializable {
             e.printStackTrace();
         }
     }
+     */
 
     private static boolean editMode = false;
 
