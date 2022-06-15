@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.web.HTMLEditor?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+
+<VBox styleClass="noteEdit" stylesheets="@../styles/editor.css" fx:id="noteEditContainer"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.notes.NoteEditController">
+    <HBox styleClass="noteEdit-title" stylesheets="@../styles/editor.css">
+        <MFXTextField fx:id="noteEditTitle" styleClass="noteEdit-title-input" stylesheets="@../styles/editor.css"
+                      floatingText="Название" floatMode="INLINE" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+    </HBox>
+    <HTMLEditor fx:id="noteEditText" styleClass="noteEdit-editor" stylesheets="@../styles/editor.css"/>
+    <HBox alignment="CENTER_RIGHT" styleClass="noteEdit-footer" stylesheets="@../styles/editor.css">
+        <MFXButton fx:id="noteEditNextBtn" styleClass="noteEdit-footer-button, next"
+                   stylesheets="@../styles/editor.css" mnemonicParsing="false" onMouseClicked="#saveNote"
+                   text="Далее"/>
+        <MFXButton fx:id="noteEditExitBtn" styleClass="noteEdit-footer-button, exit"
+                   stylesheets="@../styles/editor.css" mnemonicParsing="false" onMouseClicked="#exitFromEditMote"
+                   text="Выйти"/>
+    </HBox>
+</VBox>

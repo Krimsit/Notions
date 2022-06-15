@@ -8,7 +8,7 @@
     -fx-spacing: 10px;
     -fx-pref-width: 330px;
     -fx-pref-height: 330px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.25), 10, 0, -4, 4);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.25), 10, 0, -4, 4);
 }
 
 .note-title {
@@ -42,6 +42,7 @@
     -fx-border-insets: 0;
     -fx-background-size: 100% 100%;
     -fx-background-color: transparent;
+    -fx-cursor: hand;
 }
 
 .note-footer-button.delete {

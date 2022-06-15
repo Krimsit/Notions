@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.notificationSettings {
+    -fx-spacing: 20px;
+}
+
+.notificationSettings-datepicker {
+    -fx-background-color: #fff;
+    -fx-border-color: #FCE397;
+    -fx-font-family: 'Montserrat';
+}
+
+.notificationSettings-datepicker .floating-text {
+    -fx-font-family: 'Montserrat';
+    -fx-text-fill: #000;
+    -fx-background-color: transparent;
+}
+
+.notificationSettings-datepicker .icon {
+    -mfx-color: #FCE397;
+}
+
+.notificationSettings-datepicker .date-picker-popup .content {
+    -fx-background-color: #fff;
+    -fx-border-color: #F0D584;
+}
+
+.notificationSettings-datepicker .date-picker-popup .left-arrow:disabled,
+.notificationSettings-datepicker .date-picker-popup .right-arrow:disabled {
+    -fx-opacity: 0.8;
+}
+
+.notificationSettings-datepicker .date-picker-popup .left-arrow .mfx-font-icon,
+.notificationSettings-datepicker .date-picker-popup .right-arrow .mfx-font-icon {
+    -mfx-color: #000;
+}
+
+.notificationSettings-datepicker .date-picker-popup .months-combo,
+.notificationSettings-datepicker .date-picker-popup .years-combo {
+    -fx-border-color: transparent;
+    -fx-border-radius: 0;
+    -fx-background-color: transparent;
+    -fx-text-fill: #000;
+    -fx-padding: 4;
+    -fx-background-insets: 0;
+    -fx-font-family: 'Montserrat';
+}
+
+.notificationSettings-datepicker .date-picker-popup .months-combo:focus-within,
+.notificationSettings-datepicker .date-picker-popup .years-combo:focus-within {
+    -fx-text-fill: #000;
+}
+
+.notificationSettings-datepicker .date-picker-popup .months-combo:focus-within .caret .mfx-font-icon,
+.notificationSettings-datepicker .date-picker-popup .years-combo:focus-within .caret .mfx-font-icon {
+    -mfx-color: #F0D584;
+}
+
+.notificationSettings-datepicker .date-picker-popup .months-combo .virtual-flow,
+.notificationSettings-datepicker .date-picker-popup .years-combo .virtual-flow {
+    -track-color: derive(#000, 100%);
+    -thumb-color: derive(#F0D584, 70%);
+    -thumb-hover-color: derive(#F0D584, 45%);
+}
+
+.notificationSettings-datepicker .date-picker-popup .months-combo .virtual-flow .mfx-combo-box-cell,
+.notificationSettings-datepicker.date-picker-popup .years-combo .virtual-flow .mfx-combo-box-cell {
+    fx-font-family: 'Montserrat';
+}
+
+.notificationSettings-datepicker .date-picker-popup .months-combo .virtual-flow .mfx-combo-box-cell:selected .label,
+.notificationSettings-datepicker .date-picker-popup .years-combo .virtual-flow .mfx-combo-box-cell:selected .label {
+    -fx-text-fill: #F0D584;
+}
+
+.notificationSettings-datepicker .date-picker-popup .months-combo .virtual-flow .mfx-combo-box-cell:hover,
+.notificationSettings-datepicker .date-picker-popup .years-combo .virtual-flow .mfx-combo-box-cell:hover,
+.notificationSettings-datepicker .date-picker-popup .months-combo .virtual-flow .mfx-combo-box-cell:selected,
+.notificationSettings-datepicker .date-picker-popup .years-combo .virtual-flow .mfx-combo-box-cell:selected {
+    -fx-background-color: derive(#F0D584, 130%);
+}
+
+.notificationSettings-datepicker .date-picker-popup .week-day {
+    fx-font-family: 'Montserrat';
+    -fx-text-fill: #000;
+}
+
+.notificationSettings-datepicker .date-picker-popup .mfx-date-cell {
+    fx-font-family: 'Montserrat';
+    -fx-text-fill: #000;
+}
+
+.notificationSettings-datepicker .date-picker-popup .mfx-date-cell:extra {
+    -fx-text-fill: rgba(255, 255, 255, 0.9);
+}
+
+.notificationSettings-datepicker .date-picker-popup .mfx-date-cell:current {
+    -fx-background-color: transparent;
+    -fx-border-color: #F0D584;
+    -fx-border-width: 2;
+    fx-font-family: 'Montserrat';
+}
+
+.notificationSettings-datepicker .date-picker-popup .mfx-date-cell:selected {
+    -fx-background-color: #F0D584;
+    fx-font-family: 'Montserrat';
+    -fx-text-fill: #000;
+}
+
+.notificationSettings-time-container {
+    -fx-spacing: 10px;
+}
+
+.notificationSettings-time-separator {
+    -fx-font-size: 16px;
+    fx-font-family: 'Montserrat';
+    -fx-font-weight: 600;
+}
+
+.notificationSettings-time {
+    -fx-font-family: 'Montserrat';
+    -fx-border-color: #F0D584;
+}
+
+.notificationSettings-time .floating-text {
+    -fx-font-family: 'Montserrat';
+    -fx-text-fill: #000;
+    -fx-background-color: transparent;
+}
+
+.notificationSettings-toggle {
+    -mfx-main: #F0D584;
+    -mfx-gray: #F0D584;
+    -fx-text-fill: #000;
+}
+
+.notificationSettings-toggle .box .mark {
+    -mfx-description: "mfx-x-alt";
+}
+
+.notificationSettings-toggle:indeterminate .box .mark {
+    -mfx-description: "mfx-hyphen";
+}
+
+.notificationSettings-toggle .mfx-ripple-generator {
+    -mfx-ripple-color: #FCE397;
+    -fx-opacity: 0.4;
+}
+
+.notificationSettings-footer {
+    -fx-spacing: 15px;
+}
+
+.notificationSettings-footer-button {
+    -fx-padding: 10px 20px;
+}

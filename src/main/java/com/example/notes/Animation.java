@@ -2,7 +2,6 @@ package com.example.notes;
 
 import javafx.animation.ScaleTransition;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.util.Duration;
 

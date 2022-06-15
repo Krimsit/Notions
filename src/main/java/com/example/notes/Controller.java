@@ -50,25 +50,15 @@ public class Controller implements Initializable {
     @FXML
     public BorderPane borderPane;
     @FXML
-    public VBox noteEditContainer;
-
-    {
-        try {
-            noteEditContainer = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("noteEdit.fxml")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
     public VBox notesViewContainer;
     @FXML
     private TreeView<?> treeView;
     @FXML
     private Button noteAddTextNote;
 
-
     private Integer id = 0;
+
+    private List<Note> notificationNotes = new ArrayList<Note>();
 
     /**
      * Вызывется при первом запуске приложения
@@ -125,6 +115,7 @@ public class Controller implements Initializable {
                 });
             } catch (Exception e) {
                 e.printStackTrace();
+                Helper.writeException(e);
             }
         }
     }
@@ -150,6 +141,7 @@ public class Controller implements Initializable {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            Helper.writeException(e);
         }
     }
 
@@ -173,21 +165,25 @@ public class Controller implements Initializable {
                     if (fileInputStream != null) {
                         objectInputStream = new ObjectInputStream(fileInputStream);
                         Note note = (Note) objectInputStream.readObject();
-
+                        fileInputStream.close();
                         notes.add(note);
                     }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
+                    Helper.writeException(e);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Helper.writeException(e);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
+                    Helper.writeException(e);
                 } finally {
                     if (objectInputStream != null) {
                         try {
                             objectInputStream.close();
                         } catch (IOException e) {
                             e.printStackTrace();
+                            Helper.writeException(e);
                         }
                     }
                 }
@@ -272,7 +268,7 @@ public class Controller implements Initializable {
         if (noteName != null) {
             List<Note> notes = new ArrayList<Note>(getAllNotes());
 
-          for (Note note : notes) {
+            for (Note note : notes) {
                 if (note.getTitle().equals(noteName)) {
                     return note;
                 }

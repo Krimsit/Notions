@@ -10,7 +10,19 @@ module com.example.notes {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires FXTrayIcon;
+    requires com.google.api.client;
+    requires google.api.client;
+    requires com.google.api.services.calendar;
+    requires com.google.api.client.json.gson;
+    requires com.google.api.client.extensions.jetty.auth;
+    requires com.google.api.client.auth;
+    requires com.google.api.client.extensions.java6.auth;
 
-    opens com.example.notes to javafx.fxml;
+    requires jdk.httpserver;
+    requires com.jfoenix;
+    requires javafx.media;
+    requires MaterialFX;
+
     exports com.example.notes;
+    opens com.example.notes to javafx.fxml;
 }

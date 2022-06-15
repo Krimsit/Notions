@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXToggleButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+
+<?import javafx.scene.control.Label?>
+<VBox fx:id="notificationSettings" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.notes.Notification" styleClass="notificationSettings"
+      stylesheets="@../styles/notificationSettings.css">
+    <MFXDatePicker fx:id="notificationDatePicker" styleClass="notificationSettings-datepicker"
+                   stylesheets="@../styles/notificationSettings.css" floatMode="INLINE" floatingText="Дата уведомления"
+                   VBox.vgrow="ALWAYS" maxWidth="Infinity" />
+    <HBox alignment="CENTER_LEFT" styleClass="notificationSettings-time-container"
+          stylesheets="@../styles/notificationSettings.css" VBox.vgrow="ALWAYS" maxWidth="Infinity">
+        <MFXTextField fx:id="notificationTimeHour" styleClass="notificationSettings-time"
+                      stylesheets="@../styles/notificationSettings.css" floatMode="INLINE" floatingText="Часы"
+                      HBox.hgrow="ALWAYS" maxWidth="Infinity" textLimit="2"  />
+        <Label styleClass="notificationSettings-time-separator"
+               stylesheets="@../styles/notificationSettings.css" text=":" />
+        <MFXTextField fx:id="notificationTimeMinute" styleClass="notificationSettings-time"
+                      stylesheets="@../styles/notificationSettings.css" floatMode="INLINE" floatingText="Минуты"
+                      HBox.hgrow="ALWAYS" maxWidth="Infinity" textLimit="2"  />
+    </HBox>
+    <MFXToggleButton fx:id="notificationInSystem" styleClass="notificationSettings-toggle, inSystem"
+                     stylesheets="@../styles/notificationSettings.css" text="Уведомление в системе"/>
+    <MFXToggleButton fx:id="notificationInGoogleCalendar" styleClass="notificationSettings-toggle, inGoogleCalendar"
+                     stylesheets="@../styles/notificationSettings.css" text="Уведомление в Google Calendar"/>
+</VBox>

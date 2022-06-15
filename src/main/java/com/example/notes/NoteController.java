@@ -1,10 +1,10 @@
 package com.example.notes;
 
 import com.example.model.Note;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 /**
- * Контроллер сущности "заметка", реализующий логику работы панели заметок на главном окне
+ * Контроллер сущности "заметка". Реализует логику работы панели заметок на главном окне
  */
 public class NoteController implements Initializable {
     /**
