@@ -7,8 +7,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.HTMLEditor;
+import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
@@ -17,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.UUID;
@@ -95,37 +98,38 @@ public class NoteEditController implements Initializable {
      * @see Note
      */
     public void add(Note note) {
-        File directory = new File("NotesStored/" + Controller.getInstance().getCurrentDate());
 
-        if (!directory.exists()) directory.mkdirs();
+            File directory = new File("NotesStored/" + Controller.getInstance().getCurrentDate());
 
-        File file = new File(directory.getPath() + "/" + note.getTitle().replaceAll(" ", "_") + ".bin");
+            if (!directory.exists()) directory.mkdirs();
 
-        ObjectOutputStream objectOutputStream = null;
+            File file = new File(directory.getPath() + "/" + note.getTitle().replaceAll(" ", "_") + ".bin");
 
-        try {
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            ObjectOutputStream objectOutputStream = null;
 
-            if (fileOutputStream != null) {
-                objectOutputStream = new ObjectOutputStream(fileOutputStream);
-                objectOutputStream.writeObject(note);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            Helper.writeException(e);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Helper.writeException(e);
-        } finally {
-            if (objectOutputStream != null) {
-                try {
-                    objectOutputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Helper.writeException(e);
+            try {
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+
+                if (fileOutputStream != null) {
+                    objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                    objectOutputStream.writeObject(note);
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Helper.writeException(e);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Helper.writeException(e);
+            } finally {
+                if (objectOutputStream != null) {
+                    try {
+                        objectOutputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Helper.writeException(e);
+                    }
                 }
             }
-        }
     }
 
     /**
@@ -135,15 +139,12 @@ public class NoteEditController implements Initializable {
      */
     public void edit(String noteFileName) {
         Note note = new Note();
-
         if (noteFileName != null) {
             note = Controller.getInstance().findNote(noteFileName);
             editMode = true;
         }
-
         noteEditTitle.setText(note.getTitle());
         noteEditText.setHtmlText(note.getText());
-
         Controller.getInstance().borderPane.setCenter(noteEditContainer);
     }
 
@@ -203,30 +204,44 @@ public class NoteEditController implements Initializable {
      */
     @FXML
     private void saveNote() {
-        Note note = new Note();
+        if (noteEditTitle.getText()==null){
+            System.out.println("error");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
 
-        LocalDateTime createdOnDate = LocalDateTime.now();
+            alert.setTitle("Ошибка!");
+            alert.setContentText("Введите имя заметки");
+            alert.setHeaderText("Внимание!");
 
-        note.setText(noteEditText.getHtmlText());
-        note.setTitle(noteEditTitle.getText());
-        note.setCreatedOn(createdOnDate);
+            ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image((Helper.class.getResource("/com/example/img/icon.png")).toString()));
 
-        if (!editMode) {
-            String noteId = UUID.randomUUID().toString();
-            note.setId(noteId);
-        }
-
-        if (checkNonUniqueName(note.getTitle())) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.show();
-        } else {
-            try {
-                FXMLLoader.load(Objects.requireNonNull(getClass().getResource("notificationSettings.fxml")));
-            } catch (IOException e) {
-                e.printStackTrace();
+        }
+        else {
+            Note note = new Note();
+
+            LocalDateTime createdOnDate = LocalDateTime.now();
+
+            note.setText(noteEditText.getHtmlText());
+            note.setTitle(noteEditTitle.getText());
+            note.setCreatedOn(createdOnDate);
+
+            if (!editMode) {
+                String noteId = UUID.randomUUID().toString();
+                note.setId(noteId);
             }
 
-            Notification.getInstance().openModal(note);
+            if (checkNonUniqueName(note.getTitle())) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.show();
+            } else {
+                try {
+                    FXMLLoader.load(Objects.requireNonNull(getClass().getResource("notificationSettings.fxml")));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                Notification.getInstance().openModal(note);
+            }
         }
     }
 
