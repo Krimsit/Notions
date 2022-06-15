@@ -142,6 +142,7 @@ public class GoogleCalendarApi {
             System.out.printf("Event created: %s\n", event.getHtmlLink());
 
             trayIcon.showMessage("Событие успешно добавлено в ваш календарь");
+            Helper.playSound(Helper.SoundType.EVENT);
         } catch (RuntimeException ex) {
             trayIcon.showErrorMessage("Ошибка!", "Событие не добавлено в ваш календарь. Проверьте логи");
             Helper.writeException(ex);
@@ -215,6 +216,7 @@ public class GoogleCalendarApi {
             System.out.printf("Event created: %s\n", event.getHtmlLink());
 
             trayIcon.showMessage("Событие успешно добавлено в ваш календарь", "");
+            Helper.playSound(Helper.SoundType.EVENT);
         } catch (RuntimeException ex) {
             trayIcon.showErrorMessage("Ошибка!", "Событие не добавлено в ваш календарь. Проверьте логи");
         }
