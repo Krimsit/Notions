@@ -19,7 +19,6 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.UUID;
@@ -65,6 +64,7 @@ public class NoteEditController implements Initializable {
     private Button noteEditExitBtn;
     @FXML
     public VBox notificationSettingsContainer;
+    /*
     {
         try {
             notificationSettingsContainer = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("notificationSettings.fxml")));
@@ -72,6 +72,7 @@ public class NoteEditController implements Initializable {
             e.printStackTrace();
         }
     }
+     */
 
     private static boolean editMode = false;
 

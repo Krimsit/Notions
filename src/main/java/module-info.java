@@ -22,6 +22,7 @@ module com.example.notes {
     requires com.jfoenix;
     requires javafx.media;
     requires MaterialFX;
+    requires junit;
 
     exports com.example.notes;
     opens com.example.notes to javafx.fxml;
