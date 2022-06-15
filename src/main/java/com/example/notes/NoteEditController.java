@@ -183,8 +183,10 @@ public class NoteEditController implements Initializable {
      */
     private boolean checkNonUniqueName(String noteName) {
         Note note = Controller.getInstance().findNote(noteName);
+        System.out.println(note.getTitle());
+        System.out.println(noteName);
 
-        if (note.getId() != null && note.getTitle() == noteName) {
+        if (note.getId() != null && note.getTitle().equals(noteName)) {
             return true;
         }
 
@@ -231,7 +233,14 @@ public class NoteEditController implements Initializable {
             }
 
             if (checkNonUniqueName(note.getTitle())) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+
+                alert.setTitle("Ошибка!");
+                alert.setContentText("Заметка с таким имененм уже существует");
+                alert.setHeaderText("Внимание!");
+
+                ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image((Helper.class.getResource("/com/example/img/icon.png")).toString()));
+
                 alert.show();
             } else {
                 try {
