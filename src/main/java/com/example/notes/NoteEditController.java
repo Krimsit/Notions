@@ -4,13 +4,10 @@ import com.example.model.Note;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.HTMLEditor;
-import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
@@ -57,14 +54,12 @@ public class NoteEditController implements Initializable {
     @FXML
     private HTMLEditor noteEditText;
     @FXML
-    private Button noteEditDeleteBtn;
-    @FXML
     private Button noteEditNextBtn;
     @FXML
     private Button noteEditExitBtn;
     @FXML
     public VBox notificationSettingsContainer;
-    /*
+
     {
         try {
             notificationSettingsContainer = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("notificationSettings.fxml")));
@@ -72,7 +67,6 @@ public class NoteEditController implements Initializable {
             e.printStackTrace();
         }
     }
-     */
 
     private static boolean editMode = false;
 
@@ -100,38 +94,38 @@ public class NoteEditController implements Initializable {
      */
     public void add(Note note) {
 
-            File directory = new File("NotesStored/" + Controller.getInstance().getCurrentDate());
+        File directory = new File("NotesStored/" + Controller.getInstance().getCurrentDate());
 
-            if (!directory.exists()) directory.mkdirs();
+        if (!directory.exists()) directory.mkdirs();
 
-            File file = new File(directory.getPath() + "/" + note.getTitle().replaceAll(" ", "_") + ".bin");
+        File file = new File(directory.getPath() + "/" + note.getTitle().replaceAll(" ", "_") + ".bin");
 
-            ObjectOutputStream objectOutputStream = null;
+        ObjectOutputStream objectOutputStream = null;
 
-            try {
-                FileOutputStream fileOutputStream = new FileOutputStream(file);
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
 
-                if (fileOutputStream != null) {
-                    objectOutputStream = new ObjectOutputStream(fileOutputStream);
-                    objectOutputStream.writeObject(note);
-                    fileOutputStream.close();
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                Helper.writeException(e);
-            } catch (IOException e) {
-                e.printStackTrace();
-                Helper.writeException(e);
-            } finally {
-                if (objectOutputStream != null) {
-                    try {
-                        objectOutputStream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Helper.writeException(e);
-                    }
+            if (fileOutputStream != null) {
+                objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                objectOutputStream.writeObject(note);
+                fileOutputStream.close();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Helper.writeException(e);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Helper.writeException(e);
+        } finally {
+            if (objectOutputStream != null) {
+                try {
+                    objectOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Helper.writeException(e);
                 }
             }
+        }
     }
 
     /**
@@ -146,8 +140,7 @@ public class NoteEditController implements Initializable {
             editMode = true;
             noteEditTitle.setText(note.getTitle());
             noteEditText.setHtmlText(note.getText());
-        }
-        else {
+        } else {
             noteEditTitle.setText("");
             noteEditText.setHtmlText("");
         }
@@ -160,6 +153,8 @@ public class NoteEditController implements Initializable {
      * @param noteName заголовок заметки
      */
     public void delete(String noteName) {
+        noteName = noteName.replace(" ", "_");
+
         File noteFile = Controller.getInstance().findNoteFile(noteName);
 
         String noteFilePath = noteFile.getAbsolutePath();
@@ -167,14 +162,10 @@ public class NoteEditController implements Initializable {
         try {
             Files.delete(Path.of(noteFilePath));
         } catch (NoSuchFileException e) {
-            System.out.println(
-                    "No such file/directory exists");
             Helper.writeException(e);
         } catch (DirectoryNotEmptyException e) {
-            System.out.println("Directory is not empty.");
             Helper.writeException(e);
         } catch (IOException e) {
-            System.out.println("Invalid permissions.");
             Helper.writeException(e);
         }
 
@@ -189,8 +180,6 @@ public class NoteEditController implements Initializable {
      */
     private boolean checkNonUniqueName(String noteName) {
         Note note = Controller.getInstance().findNote(noteName);
-        System.out.println(note.getTitle());
-        System.out.println(noteName);
 
         if (note.getId() != null && note.getTitle().equals(noteName)) {
             return true;
@@ -212,19 +201,9 @@ public class NoteEditController implements Initializable {
      */
     @FXML
     private void saveNote() {
-        if (noteEditTitle.getText()==null){
-            System.out.println("error");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-
-            alert.setTitle("Ошибка!");
-            alert.setContentText("Введите имя заметки");
-            alert.setHeaderText("Внимание!");
-
-            ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image((Helper.class.getResource("/com/example/img/icon.png")).toString()));
-
-            alert.show();
-        }
-        else {
+        if (noteEditTitle.getText() == "") {
+            Helper.showErrorDialog("Введите имя заметки");
+        } else {
             Note note = new Note();
 
             LocalDateTime createdOnDate = LocalDateTime.now();
@@ -238,16 +217,8 @@ public class NoteEditController implements Initializable {
                 note.setId(noteId);
             }
 
-            if (checkNonUniqueName(note.getTitle())) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-
-                alert.setTitle("Ошибка!");
-                alert.setContentText("Заметка с таким имененм уже существует");
-                alert.setHeaderText("Внимание!");
-
-                ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image((Helper.class.getResource("/com/example/img/icon.png")).toString()));
-
-                alert.show();
+            if (checkNonUniqueName(note.getTitle()) && !editMode) {
+                Helper.showErrorDialog("Заметка с таким именем уже существует");
             } else {
                 try {
                     FXMLLoader.load(Objects.requireNonNull(getClass().getResource("notificationSettings.fxml")));
@@ -258,15 +229,5 @@ public class NoteEditController implements Initializable {
                 Notification.getInstance().openModal(note);
             }
         }
-    }
-
-    /**
-     * Вызывается при нажатии на кнопку удаления заметки
-     */
-    @FXML
-    private void deleteNote() {
-        String noteTitle = noteEditTitle.getText();
-
-        delete(noteTitle);
     }
 }

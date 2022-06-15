@@ -20,7 +20,6 @@ import java.io.*;
 import java.security.GeneralSecurityException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -139,7 +138,6 @@ public class GoogleCalendarApi {
             String calendarId = "primary";
 
             event = service.events().insert(calendarId, event).execute();
-            System.out.printf("Event created: %s\n", event.getHtmlLink());
 
             trayIcon.showMessage("Событие успешно добавлено в ваш календарь");
             Helper.playSound(Helper.SoundType.EVENT);
@@ -213,7 +211,6 @@ public class GoogleCalendarApi {
             String calendarId = "primary";
 
             event = service.events().insert(calendarId, event).execute();
-            System.out.printf("Event created: %s\n", event.getHtmlLink());
 
             trayIcon.showMessage("Событие успешно добавлено в ваш календарь", "");
             Helper.playSound(Helper.SoundType.EVENT);

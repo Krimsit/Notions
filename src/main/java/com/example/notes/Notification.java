@@ -3,22 +3,15 @@ package com.example.notes;
 import com.example.model.Note;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
 import io.github.palexdev.materialfx.dialogs.MFXStageDialog;
-import io.github.palexdev.materialfx.enums.ScrimPriority;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -56,6 +49,10 @@ public class Notification implements Initializable {
 
     @FXML
     private MFXDatePicker notificationDatePicker;
+    @FXML
+    private MFXTextField notificationTimeHour;
+    @FXML
+    private MFXTextField notificationTimeMinute;
 
     private MFXGenericDialog dialogContent;
     private MFXStageDialog dialog;
@@ -67,8 +64,15 @@ public class Notification implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         notificationDatePicker.setValue(LocalDate.now());
+        notificationTimeHour.setText("0");
+        notificationTimeMinute.setText("0");
     }
 
+    /**
+     * Открывает модальное окно настройки уведомлений заметки
+     *
+     * @param noteObj Объект создаваемой заметки
+     */
     public void openModal(Note noteObj) {
         note = noteObj;
 
@@ -99,12 +103,16 @@ public class Notification implements Initializable {
                         MFXDatePicker notificationDatePicker = (MFXDatePicker) dialogContent.lookup("#notificationDatePicker");
                         MFXToggleButton notificationInSystem = (MFXToggleButton) dialogContent.lookup("#notificationInSystem");
                         MFXToggleButton notificationInGoogleCalendar = (MFXToggleButton) dialogContent.lookup("#notificationInGoogleCalendar");
+                        MFXTextField notificationTimeHour = (MFXTextField) dialogContent.lookup("#notificationTimeHour");
+                        MFXTextField notificationTimeMinute = (MFXTextField) dialogContent.lookup("#notificationTimeMinute");
 
                         LocalDate date = notificationDatePicker.getValue();
                         Boolean isSystem = notificationInSystem.isSelected();
                         Boolean isGoogleCalendar = notificationInGoogleCalendar.isSelected();
+                        Integer hour = Integer.parseInt(notificationTimeHour.getText());
+                        Integer minute = Integer.parseInt(notificationTimeMinute.getText());
 
-                        saveSettings(date, isSystem, isGoogleCalendar);
+                        saveSettings(date, hour, minute, isSystem, isGoogleCalendar);
 
                         dialog.close();
                         NoteEditController.getInstance().closeEdit();
@@ -114,7 +122,10 @@ public class Notification implements Initializable {
                         e.printStackTrace();
                     }
                 }),
-                Map.entry(new MFXButton("Назад"), event -> dialog.close())
+                Map.entry(new MFXButton("Назад"), event -> {
+                    note = null;
+                    dialog.close();
+                })
         );
 
         dialogContent.setMaxSize(300, 400);
@@ -122,8 +133,17 @@ public class Notification implements Initializable {
         dialog.showDialog();
     }
 
-    public void saveSettings(LocalDate date, Boolean isSystem, Boolean isGoogleCalendar) throws GeneralSecurityException, IOException {
-        LocalDateTime notificationDate = date.atStartOfDay().withSecond(1).withNano(1);
+    /**
+     * Сохраняет настройки уведомлений и сохраняет заметку
+     *
+     * @param date Дата заметки
+     * @param hour Час уведомления
+     * @param minute Минута уведомления
+     * @param isSystem Будет ли уведомление показываться в системе
+     * @param isGoogleCalendar Будет ли уведомление добавлено в Google Calendar
+     */
+    public void saveSettings(LocalDate date, Integer hour, Integer minute, Boolean isSystem, Boolean isGoogleCalendar) throws GeneralSecurityException, IOException {
+        LocalDateTime notificationDate = date.atStartOfDay().withHour(hour).withMinute(minute).withSecond(1).withNano(1);
 
         if (isSystem || isGoogleCalendar) {
             note.setNotificationDate(notificationDate);
@@ -156,6 +176,5 @@ public class Notification implements Initializable {
         long initialDelay = duration.getSeconds();
 
         scheduler.schedule(new NotificationTask(scheduler), initialDelay, SECONDS);
-        System.out.println("Thread started");
     }
 }

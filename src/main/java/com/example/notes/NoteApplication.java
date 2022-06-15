@@ -1,6 +1,5 @@
 package com.example.notes;
 
-import com.example.model.Note;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,8 +9,6 @@ import com.dustinredmond.fxtrayicon.FXTrayIcon;
 
 import java.io.IOException;
 import java.util.Objects;
-
-import static java.lang.Integer.parseInt;
 
 /**
  * Базовый класс, инициализирующий работу.
