@@ -144,7 +144,7 @@ public class GoogleCalendarApi {
             trayIcon.showMessage("Событие успешно добавлено в ваш календарь");
         } catch (RuntimeException ex) {
             trayIcon.showErrorMessage("Ошибка!", "Событие не добавлено в ваш календарь. Проверьте логи");
-            Logger.writeException(ex);
+            Helper.writeException(ex);
         }
     }
 

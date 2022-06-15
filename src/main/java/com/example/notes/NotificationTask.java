@@ -5,6 +5,10 @@ import java.util.concurrent.TimeUnit;
 
 import static com.example.notes.NoteApplication.trayIcon;
 
+
+/**
+ * Класс который вызывается на фоновом потоке и непосредственно вызывает отложенное уведомление
+ */
 public class NotificationTask implements Runnable {
 
     private ScheduledExecutorService scheduler;
@@ -17,6 +21,7 @@ public class NotificationTask implements Runnable {
     public void run() {
         if (trayIcon.isSupported()) {
             trayIcon.showMessage("Проверка");
+            Helper.playSound(Helper.SoundType.NOTIFICATION);
 
             terminateScheduledThread();
         }
@@ -42,7 +47,7 @@ public class NotificationTask implements Runnable {
             // Preserve interrupt status
             Thread.currentThread().interrupt();
             System.out.println("Thread interrupted");
-            Logger.writeException(ie);
+            Helper.writeException(ie);
         }
     }
 }
