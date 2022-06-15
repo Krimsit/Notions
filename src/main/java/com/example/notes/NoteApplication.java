@@ -33,7 +33,8 @@ public class NoteApplication extends Application {
         stage.setTitle("Notes");
         stage.setScene(scene);
         stage.getIcons().add(new Image((getClass().getResource("/com/example/img/icon.png")).toString()));
-
+        stage.setMinHeight(600);
+        stage.setMinWidth(750);
         // Pass in the app's main stage, and path to the icon image
         trayIcon = new FXTrayIcon(stage, getClass().getResource("/com/example/img/icon.png"));
         trayIcon.setApplicationTitle("Notes");
