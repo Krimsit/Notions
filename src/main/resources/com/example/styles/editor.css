@@ -7,16 +7,18 @@
 }
 
 .noteEdit-title {
-    -fx-background-color: transparent;
-    -fx-alignment: center;
-    -fx-spacing: 15px;
     -fx-padding: 0px 10px;
 }
 
-.noteEdit-title-label {
-    -fx-font-size: 16px;
+.noteEdit-title-input {
     -fx-font-family: 'Montserrat';
-    -fx-font-weight: 700;
+    -fx-border-color: #F0D584;
+}
+
+.noteEdit-title-input .floating-text {
+    -fx-font-family: 'Montserrat';
+    -fx-text-fill: #000;
+    -fx-background-color: transparent;
 }
 
 .noteEdit-editor {

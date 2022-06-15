@@ -4,13 +4,16 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.web.*?>
 
-<VBox fx:id="noteContainer" styleClass="note" stylesheets="@../styles/note.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.notes.NoteController">
-   <Label fx:id="noteTitle" styleClass="note-title" stylesheets="@../styles/note.css" />
-   <WebView fx:id="noteText" disable="true" stylesheets="@../styles/note.css" />
-   <HBox styleClass="note-footer" stylesheets="@../styles/note.css">
-      <Label fx:id="noteDate" />
-      <Region HBox.hgrow="SOMETIMES" />
-      <Button fx:id="noteDeleteBtn" styleClass="note-footer-button, delete" stylesheets="@../styles/note.css" onMouseClicked="#deleteNote" />
-      <Button fx:id="noteEditBtn" styleClass="note-footer-button, edit" stylesheets="@../styles/note.css" onMouseClicked="#editNote" />
-   </HBox>
+<VBox fx:id="noteContainer" styleClass="note" stylesheets="@../styles/note.css" xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.notes.NoteController">
+    <Label fx:id="noteTitle" styleClass="note-title" stylesheets="@../styles/note.css"/>
+    <WebView fx:id="noteText" disable="true" stylesheets="@../styles/note.css"/>
+    <HBox styleClass="note-footer" stylesheets="@../styles/note.css">
+        <Label fx:id="noteDate"/>
+        <Region HBox.hgrow="SOMETIMES"/>
+        <Button fx:id="noteDeleteBtn" styleClass="note-footer-button, delete" stylesheets="@../styles/note.css"
+                onMouseClicked="#deleteNote"/>
+        <Button fx:id="noteEditBtn" styleClass="note-footer-button, edit" stylesheets="@../styles/note.css"
+                onMouseClicked="#editNote"/>
+    </HBox>
 </VBox>

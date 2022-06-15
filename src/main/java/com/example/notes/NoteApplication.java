@@ -30,15 +30,10 @@ public class NoteApplication extends Application {
         stage.setScene(scene);
         stage.getIcons().add(new Image((getClass().getResource("/com/example/img/icon.png")).toString()));
 
-
         // Pass in the app's main stage, and path to the icon image
         trayIcon = new FXTrayIcon(stage, getClass().getResource("/com/example/img/icon.png"));
         trayIcon.setApplicationTitle("Notes");
         trayIcon.show();
-
-        System.out.println(getClass().getResource("/com/example/img/icon.png"));
-
-
 
 //        // We can also nest menus, below is an Options menu with sub-items
 //        Menu menuOptions = new Menu("Options");

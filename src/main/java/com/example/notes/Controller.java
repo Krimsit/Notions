@@ -51,15 +51,6 @@ public class Controller implements Initializable {
     public BorderPane borderPane;
     @FXML
     public VBox noteEditContainer;
-
-    {
-        try {
-            noteEditContainer = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("noteEdit.fxml")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     @FXML
     public VBox notesViewContainer;
     @FXML
@@ -342,6 +333,12 @@ public class Controller implements Initializable {
      */
     @FXML
     public void addNote() {
+        try {
+            FXMLLoader.load(Objects.requireNonNull(getClass().getResource("editor.fxml")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         NoteEditController.getInstance().edit(null);
     }
 
