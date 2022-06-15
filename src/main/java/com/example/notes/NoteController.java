@@ -99,7 +99,6 @@ public class NoteController implements Initializable {
      * Вызывается после нажатия кнопки удалить заметку
      *
      * @param mouseEvent
-     * @throws IOException
      */
     @FXML
     public void deleteNote(MouseEvent mouseEvent) {

@@ -168,6 +168,10 @@ public class Notification implements Initializable {
         }
     }
 
+    /**
+     * Запускает отложенное системное уведомление
+     * @param date дата запуска уведомления
+     */
     public void scheduleNotification(LocalDateTime date) {
         LocalDateTime now = LocalDateTime.now();
 
