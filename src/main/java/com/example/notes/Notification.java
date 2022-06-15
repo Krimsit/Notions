@@ -104,12 +104,13 @@ public class Notification implements Initializable {
                         MFXToggleButton notificationInSystem = (MFXToggleButton) dialogContent.lookup("#notificationInSystem");
                         MFXToggleButton notificationInGoogleCalendar = (MFXToggleButton) dialogContent.lookup("#notificationInGoogleCalendar");
                         MFXTextField notificationTimeHour = (MFXTextField) dialogContent.lookup("#notificationTimeHour");
+                        MFXTextField notificationTimeMinute = (MFXTextField) dialogContent.lookup("#notificationTimeMinute");
 
                         LocalDate date = notificationDatePicker.getValue();
                         Boolean isSystem = notificationInSystem.isSelected();
                         Boolean isGoogleCalendar = notificationInGoogleCalendar.isSelected();
                         Integer hour = Integer.parseInt(notificationTimeHour.getText());
-                        Integer minute = Integer.parseInt(notificationTimeHour.getText());
+                        Integer minute = Integer.parseInt(notificationTimeMinute.getText());
 
                         saveSettings(date, hour, minute, isSystem, isGoogleCalendar);
 

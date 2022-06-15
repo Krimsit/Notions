@@ -43,7 +43,7 @@ public class Helper {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.uu-HH.mm.ss");
 
         /**
-         * Директрория хранения логов. По умолчанию logs/
+         * Директория хранения логов. По умолчанию logs/
          */
         File logDirectory = new File("logs/");
 
@@ -64,7 +64,8 @@ public class Helper {
                 fileWriter.write(sStackTrace);
 
             }
-            showAlertMessage(ex.toString());
+            //showAlertMessage(ex.toString());
+            showErrorDialog(ex.toString() + "\nПроверьте журнал ошибок в папке logs");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -121,7 +122,7 @@ public class Helper {
         dialogContent.addActions(
                 Map.entry(new MFXButton("Назад"), event -> dialog.close())
         );
-
+        playSound(SoundType.ERROR);
         dialog.showDialog();
     }
 
