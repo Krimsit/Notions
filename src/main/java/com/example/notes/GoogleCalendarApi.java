@@ -25,7 +25,9 @@ import java.util.List;
 
 import static com.example.notes.NoteApplication.trayIcon;
 
-/* class to demonstarte use of Calendar events list API */
+/**
+ * Класс, реализующий связь и последующую синхронизацию с Google календарем
+ */
 public class GoogleCalendarApi {
     /**
      * Синглтон класса GoogleCalendarApi

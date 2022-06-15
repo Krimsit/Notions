@@ -24,6 +24,9 @@ import java.time.*;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+/**
+ * Класс реализующий логику уведомлений
+ */
 public class Notification implements Initializable {
     /**
      * Синглтон класса Notification

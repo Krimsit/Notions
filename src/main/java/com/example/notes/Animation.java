@@ -5,6 +5,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Tooltip;
 import javafx.util.Duration;
 
+/**
+ * Класс, реализующий анимацию GUI объектов
+ */
 public class Animation {
     /**
      * Создаёт плавную анимацию при наведении на объект
