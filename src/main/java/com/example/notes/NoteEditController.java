@@ -153,6 +153,8 @@ public class NoteEditController implements Initializable {
      * @param noteName заголовок заметки
      */
     public void delete(String noteName) {
+        noteName = noteName.replace(" ", "_");
+
         File noteFile = Controller.getInstance().findNoteFile(noteName);
 
         String noteFilePath = noteFile.getAbsolutePath();
