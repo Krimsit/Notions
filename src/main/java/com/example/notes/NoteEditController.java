@@ -201,7 +201,7 @@ public class NoteEditController implements Initializable {
      */
     @FXML
     private void saveNote() {
-        if (noteEditTitle.getText() == null) {
+        if (noteEditTitle.getText() == "") {
             Helper.showErrorDialog("Введите имя заметки");
         } else {
             Note note = new Note();
@@ -218,7 +218,7 @@ public class NoteEditController implements Initializable {
             }
 
             if (checkNonUniqueName(note.getTitle()) && !editMode) {
-                Helper.showErrorDialog("Заметка с таким имененм уже существует");
+                Helper.showErrorDialog("Заметка с таким именем уже существует");
             } else {
                 try {
                     FXMLLoader.load(Objects.requireNonNull(getClass().getResource("notificationSettings.fxml")));
