@@ -143,9 +143,13 @@ public class NoteEditController implements Initializable {
         if (noteFileName != null) {
             note = Controller.getInstance().findNote(noteFileName);
             editMode = true;
+            noteEditTitle.setText(note.getTitle());
+            noteEditText.setHtmlText(note.getText());
         }
-        noteEditTitle.setText(note.getTitle());
-        noteEditText.setHtmlText(note.getText());
+        else {
+            noteEditTitle.setText("");
+            noteEditText.setHtmlText("");
+        }
         Controller.getInstance().borderPane.setCenter(noteEditContainer);
     }
 
