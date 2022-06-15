@@ -24,4 +24,5 @@ module com.example.notes {
     requires MaterialFX;
 
     exports com.example.notes;
+    opens com.example.notes to javafx.fxml;
 }
