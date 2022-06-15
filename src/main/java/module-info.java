@@ -21,7 +21,7 @@ module com.example.notes {
     requires jdk.httpserver;
     requires com.jfoenix;
     requires javafx.media;
+    requires MaterialFX;
 
-    opens com.example.notes to javafx.fxml;
     exports com.example.notes;
 }

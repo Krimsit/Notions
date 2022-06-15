@@ -77,6 +77,11 @@
             <version>9.0.10</version>
         </dependency>
         <dependency>
+            <groupId>io.github.palexdev</groupId>
+            <artifactId>materialfx</artifactId>
+            <version>11.13.5</version>
+        </dependency>
+        <dependency>
             <groupId>net.synedra</groupId>
             <artifactId>validatorfx</artifactId>
             <version>0.1.13</version>

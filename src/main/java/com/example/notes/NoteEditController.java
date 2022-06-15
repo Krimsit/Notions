@@ -2,6 +2,7 @@ package com.example.notes;
 
 import com.example.model.Note;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -16,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
@@ -55,27 +57,35 @@ public class NoteEditController implements Initializable {
     @FXML
     private Button noteEditDeleteBtn;
     @FXML
-    private Button noteEditSaveBtn;
+    private Button noteEditNextBtn;
     @FXML
     private Button noteEditExitBtn;
+    @FXML
+    public VBox notificationSettingsContainer;
+    {
+        try {
+            notificationSettingsContainer = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("notificationSettings.fxml")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private static boolean editMode = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        noteEditDeleteBtn.setVisible(false);
-
-        Animation.ScaleButtonAnimation(noteEditDeleteBtn);
-        Animation.ScaleButtonAnimation(noteEditSaveBtn);
+        Animation.ScaleButtonAnimation(noteEditNextBtn);
         Animation.ScaleButtonAnimation(noteEditExitBtn);
     }
 
     /**
      * Скрывает режим редактирования заметки
      */
-    private void closeEdit() {
+    public void closeEdit() {
         Controller.getInstance().borderPane.setCenter(Controller.getInstance().notesViewContainer);
         Controller.getInstance().updateViewedNotes();
+
+        editMode = false;
     }
 
     /**
@@ -129,7 +139,6 @@ public class NoteEditController implements Initializable {
         if (noteFileName != null) {
             note = Controller.getInstance().findNote(noteFileName);
             editMode = true;
-            noteEditDeleteBtn.setVisible(true);
         }
 
         noteEditTitle.setText(note.getTitle());
@@ -211,10 +220,13 @@ public class NoteEditController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.show();
         } else {
-            add(note);
-            closeEdit();
+            try {
+                FXMLLoader.load(Objects.requireNonNull(getClass().getResource("notificationSettings.fxml")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-            editMode = false;
+            Notification.getInstance().openModal(note);
         }
     }
 
