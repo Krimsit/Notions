@@ -2,22 +2,15 @@ package com.example.notes;
 
 import com.example.model.Note;
 
-import com.jfoenix.controls.JFXTimePicker;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.security.GeneralSecurityException;
-import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 

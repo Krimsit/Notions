@@ -1,22 +1,31 @@
 package com.example.notes;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
+import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
+import io.github.palexdev.materialfx.dialogs.MFXStageDialog;
+import io.github.palexdev.materialfx.font.MFXFontIcon;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
 import java.io.*;
-import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+
 import java.io.File;
+import java.util.Map;
 
 
 /**
  * Вспомогательный класс хелпер
  */
 public class Helper {
-
+    private static MFXGenericDialog dialogContent;
+    private static MFXStageDialog dialog;
 
     /**
      * Перечисление категории звуков. ERROR - ошибка. NOTIFICATION - уведомление. EVENT - событие.
@@ -25,14 +34,12 @@ public class Helper {
         ERROR, NOTIFICATION, EVENT
     }
 
-
-
     /**
      * Метод записывает Exception StackTrace на компьютер пользователя
+     *
      * @param ex
      */
-    public static void writeException(Exception ex){
-
+    public static void writeException(Exception ex) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.uu-HH.mm.ss");
 
         /**
@@ -44,7 +51,6 @@ public class Helper {
             logDirectory.mkdirs();
 
         File log = new File(logDirectory.getPath() + "/" + "log-" + dtf.format(LocalDateTime.now()) + ".log");
-
 
         FileWriter fileWriter = null;
         try {
@@ -77,9 +83,10 @@ public class Helper {
 
     /**
      * Вызывет сообщение об ошибке
+     *
      * @param messageError текст ошибки
      */
-    public static void showAlertMessage(String messageError){
+    public static void showAlertMessage(String messageError) {
         playSound(SoundType.ERROR);
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -88,46 +95,63 @@ public class Helper {
         alert.setContentText(messageError + "\nПроверьте журнал ошибок в папке logs");
         alert.setHeaderText("Внимание!");
 
-        ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image((Helper.class.getResource("/com/example/img/icon.png")).toString()));
+        ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image((Helper.class.getResource("/com/example/img/icon.png")).toString()));
 
         alert.show();
+    }
 
+    /**
+     * Показывает модальное окно с ошибкой
+     *
+     * @param messageError содержание ошибки
+     */
+    public static void showErrorDialog(String messageError) {
+        dialogContent = MFXGenericDialogBuilder.build()
+                .setHeaderText("Внимание!")
+                .setHeaderIcon(new MFXFontIcon("mfx-exclamation-circle-filled", 18))
+                .setContentText(messageError)
+                .get();
+
+        dialog = MFXGenericDialogBuilder.build(dialogContent)
+                .toStageDialogBuilder()
+                .setDraggable(true)
+                .setTitle("Loading...")
+                .get();
+
+        dialogContent.addActions(
+                Map.entry(new MFXButton("Назад"), event -> dialog.close())
+        );
+
+        dialog.showDialog();
     }
 
     /**
      * Запускает звук
+     *
      * @param soundType тип звука
      */
     public static void playSound(SoundType soundType) {
-
-        switch (soundType){
-
+        switch (soundType) {
             case ERROR:
                 String errorSound = "Error.wav";
-                Media errorMedia = new Media(Helper.class.getResource("/com/example/sounds/"+errorSound).toExternalForm());
+                Media errorMedia = new Media(Helper.class.getResource("/com/example/sounds/" + errorSound).toExternalForm());
                 MediaPlayer errorMediaPlayer = new MediaPlayer(errorMedia);
                 errorMediaPlayer.play();
                 break;
-
             case NOTIFICATION:
                 String notificationSound = "Notification.wav";
 
-                Media notificationMedia = new Media(Helper.class.getResource("/com/example/sounds/"+notificationSound).toExternalForm());
+                Media notificationMedia = new Media(Helper.class.getResource("/com/example/sounds/" + notificationSound).toExternalForm());
                 MediaPlayer notificationMediaPlayer = new MediaPlayer(notificationMedia);
                 notificationMediaPlayer.play();
                 break;
-
             case EVENT:
                 String eventSound = "Event.wav";
 
-                Media eventMedia = new Media(Helper.class.getResource("/com/example/sounds/"+eventSound).toExternalForm());
+                Media eventMedia = new Media(Helper.class.getResource("/com/example/sounds/" + eventSound).toExternalForm());
                 MediaPlayer eventMediaPlayer = new MediaPlayer(eventMedia);
                 eventMediaPlayer.play();
                 break;
-
         }
-
-
     }
-
 }

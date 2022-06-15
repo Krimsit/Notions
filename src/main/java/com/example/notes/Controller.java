@@ -50,19 +50,15 @@ public class Controller implements Initializable {
     @FXML
     public BorderPane borderPane;
     @FXML
-    public VBox noteEditContainer;
-    @FXML
     public VBox notesViewContainer;
     @FXML
     private TreeView<?> treeView;
     @FXML
     private Button noteAddTextNote;
 
-
     private Integer id = 0;
 
     private List<Note> notificationNotes = new ArrayList<Note>();
-
 
     /**
      * Вызывется при первом запуске приложения
@@ -195,8 +191,6 @@ public class Controller implements Initializable {
         }
 
         notes = notes.stream().sorted(Comparator.comparing(Note::getCreatedOn)).collect(Collectors.toList());
-
-        //getAllNotesWithNotificationOn(notes);
 
         return notes;
     }
@@ -334,13 +328,5 @@ public class Controller implements Initializable {
     @FXML
     public void addNote() {
         NoteEditController.getInstance().edit(null);
-    }
-
-    public void getAllNotesWithNotificationOn(List<Note> notes) {
-        notes.forEach((Note note) -> {
-            if (note.getNotificationStatus()) {
-                notificationNotes.add(note);
-            }
-        });
     }
 }
