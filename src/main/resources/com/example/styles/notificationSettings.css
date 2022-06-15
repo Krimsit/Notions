@@ -1,4 +1,8 @@
-.notificationSettings {}
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.notificationSettings {
+    -fx-spacing: 20px;
+}
 
 .notificationSettings-datepicker {
     -fx-background-color: #fff;
@@ -101,6 +105,27 @@
     -fx-background-color: #F0D584;
     fx-font-family: 'Montserrat';
     -fx-text-fill: #000;
+}
+
+.notificationSettings-time-container {
+    -fx-spacing: 10px;
+}
+
+.notificationSettings-time-separator {
+    -fx-font-size: 16px;
+    fx-font-family: 'Montserrat';
+    -fx-font-weight: 600;
+}
+
+.notificationSettings-time {
+    -fx-font-family: 'Montserrat';
+    -fx-border-color: #F0D584;
+}
+
+.notificationSettings-time .floating-text {
+    -fx-font-family: 'Montserrat';
+    -fx-text-fill: #000;
+    -fx-background-color: transparent;
 }
 
 .notificationSettings-toggle {
