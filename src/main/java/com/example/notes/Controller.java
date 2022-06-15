@@ -333,12 +333,6 @@ public class Controller implements Initializable {
      */
     @FXML
     public void addNote() {
-        try {
-            FXMLLoader.load(Objects.requireNonNull(getClass().getResource("editor.fxml")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         NoteEditController.getInstance().edit(null);
     }
 

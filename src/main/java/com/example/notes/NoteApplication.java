@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import com.dustinredmond.fxtrayicon.FXTrayIcon;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import static java.lang.Integer.parseInt;
 
@@ -23,13 +24,15 @@ public class NoteApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
-
+        try {
+            FXMLLoader.load(Objects.requireNonNull(getClass().getResource("editor.fxml")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Scene scene = new Scene(fxmlLoader.load(), 1440, 900);
-
         stage.setTitle("Notes");
         stage.setScene(scene);
         stage.getIcons().add(new Image((getClass().getResource("/com/example/img/icon.png")).toString()));
-
 
         // Pass in the app's main stage, and path to the icon image
         trayIcon = new FXTrayIcon(stage, getClass().getResource("/com/example/img/icon.png"));
